@@ -66,13 +66,15 @@ namespace Sakaishi.Contexts
             modelBuilder.Entity<LargeCategory>(
                 t =>
                 {
-                    t.HasKey(e => e.Id);
+                    t.HasBaseType(typeof(Category));
 
                     t.Property(e => e.Name)
-                    .IsRequired();
+                    .IsRequired()
+                    .HasColumnName("Name");
 
                     t.Property(e => e.Vector)
-                    .IsRequired();
+                    .IsRequired()
+                    .HasColumnName("Vector");
 
                     t.Navigation(e => e.SmallCategories)
                     .AutoInclude();
@@ -81,19 +83,22 @@ namespace Sakaishi.Contexts
             modelBuilder.Entity<SmallCategory>(
                 t =>
                 {
-                    t.HasKey(e => e.Id);
+                    t.HasBaseType(typeof(Category));
 
                     t.Property(e => e.Name)
-                    .IsRequired();
+                    .IsRequired()
+                    .HasColumnName("Name");
 
                     t.Property(e => e.Vector)
-                    .IsRequired();
+                    .IsRequired()
+                    .HasColumnName("Vector");
 
                     t.Navigation(e => e.Items)
                     .AutoInclude();
 
                     t.Navigation(e => e.LargeCategory)
-                    .AutoInclude();
+                    .AutoInclude()
+                    .IsRequired();
                 });
 
             modelBuilder.Entity<PaymentMethod>(

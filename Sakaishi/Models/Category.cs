@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Sakaishi.Models
 {
-    public class LargeCategory : Category
+    public class Category
     {
-        public ObservableCollection<SmallCategory> SmallCategories { get; } = [];
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public float[] Vector { get; set; }
     }
 }

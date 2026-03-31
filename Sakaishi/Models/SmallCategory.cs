@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Sakaishi.Models
 {
-    public class SmallCategory
+    public class SmallCategory : Category
     {
-        public int Id { get; set; }
         public int LargeCategoryId { get; set; }
-        public string Name { get; set; }
         public ICollection<Item> Items { get; } = new HashSet<Item>();
         public LargeCategory LargeCategory { get; set; } = null!;
-        public float[] Vector { get; set; }
     }
 }

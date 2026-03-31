@@ -11,7 +11,7 @@ using Sakaishi.Contexts;
 namespace Sakaishi.Migrations
 {
     [DbContext(typeof(SakaishiContext))]
-    [Migration("20260330113155_InitialCreate")]
+    [Migration("20260331062437_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -19,6 +19,36 @@ namespace Sakaishi.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.14");
+
+            modelBuilder.Entity("Sakaishi.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Name");
+
+                    b.Property<string>("Vector")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Vector");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
+
+                    b.HasDiscriminator().HasValue("Category");
+
+                    b.UseTphMappingStrategy();
+                });
 
             modelBuilder.Entity("Sakaishi.Models.Item", b =>
                 {
@@ -59,26 +89,10 @@ namespace Sakaishi.Migrations
 
                     b.HasIndex("PaymentMethodId");
 
-                    b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("Sakaishi.Models.LargeCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Vector")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LargeCategories");
+                    b.ToTable("Items", t =>
+                        {
+                            t.HasCheckConstraint("CK_Balance", "[Expense] > 0 AND [Income] = 0 OR [Expense] = 0 AND [Income] > 0");
+                        });
                 });
 
             modelBuilder.Entity("Sakaishi.Models.PaymentMethod", b =>
@@ -96,28 +110,23 @@ namespace Sakaishi.Migrations
                     b.ToTable("PaymentMethods");
                 });
 
+            modelBuilder.Entity("Sakaishi.Models.LargeCategory", b =>
+                {
+                    b.HasBaseType("Sakaishi.Models.Category");
+
+                    b.HasDiscriminator().HasValue("LargeCategory");
+                });
+
             modelBuilder.Entity("Sakaishi.Models.SmallCategory", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.HasBaseType("Sakaishi.Models.Category");
 
                     b.Property<int>("LargeCategoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Vector")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("LargeCategoryId");
 
-                    b.ToTable("SmallCategories");
+                    b.HasDiscriminator().HasValue("SmallCategory");
                 });
 
             modelBuilder.Entity("Sakaishi.Models.Item", b =>
@@ -150,14 +159,14 @@ namespace Sakaishi.Migrations
                     b.Navigation("LargeCategory");
                 });
 
-            modelBuilder.Entity("Sakaishi.Models.LargeCategory", b =>
-                {
-                    b.Navigation("SmallCategories");
-                });
-
             modelBuilder.Entity("Sakaishi.Models.PaymentMethod", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Sakaishi.Models.LargeCategory", b =>
+                {
+                    b.Navigation("SmallCategories");
                 });
 
             modelBuilder.Entity("Sakaishi.Models.SmallCategory", b =>

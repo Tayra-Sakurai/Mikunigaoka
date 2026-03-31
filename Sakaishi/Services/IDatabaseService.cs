@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace Sakaishi.Services
 {
+    /// <summary>
+    /// Defines a contract for performing asynchronous CRUD operations on entities within a specified Entity Framework
+    /// database context.
+    /// </summary>
+    /// <remarks>Implementations of this interface provide generic methods for adding, updating, deleting, and
+    /// retrieving entities in a type-safe manner using the specified DbContext. All operations are asynchronous and
+    /// designed to work with Entity Framework's change tracking and data access patterns.</remarks>
+    /// <typeparam name="TContext">The type of the Entity Framework database context. Must derive from DbContext.</typeparam>
     public interface IDatabaseService<TContext>
         where TContext : DbContext
     {
@@ -48,6 +56,29 @@ namespace Sakaishi.Services
         /// <typeparam name="TEntity">The type of the entity to be removed.</typeparam>
         /// <inheritdoc cref="DeleteAsync(object)"/>
         Task DeleteAsync<TEntity>(TEntity entity)
+            where TEntity : class;
+
+        /// <summary>
+        /// <para>Gets the list of <typeparamref name="TEntity"/> which is contained by <typeparamref name="TContext"/>.</para>
+        /// <para>This first applies <paramref name="factory"/> to the <typeparamref name="TContext"/> instance held by the class implemention. Next, this gets the list from the <see cref="DbSet{TEntity}"/>.</para>
+        /// </summary>
+        /// <remarks>
+        /// Since this function uses a <see cref="DbSet{TEntity}"/> instance, <typeparamref name="TEntity"/> must be a class.
+        /// </remarks>
+        /// <typeparam name="TEntity">The entity type. Must be a reference type.</typeparam>
+        /// <param name="factory">A function to get the <see cref="DbSet{TEntity}"/> instance.</param>
+        /// <returns>A task to manage the asynchronous operation to return an instance of an implemention of <see cref="IList{TEntity}"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="factory"/> is null.</exception>
+        Task<IList<TEntity>> GetEntitiesAsync<TEntity>(Func<TContext, DbSet<TEntity>> factory)
+            where TEntity : class;
+
+        /// <summary>
+        /// Asynchronously retrieves a collection of entities of the specified type.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of entity to retrieve. Must be a reference type.</typeparam>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a list of entities of type
+        /// TEntity.</returns>
+        Task<IList<TEntity>> GetEntitiesAsync<TEntity>()
             where TEntity : class;
     }
 }

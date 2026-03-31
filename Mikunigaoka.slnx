@@ -13,5 +13,6 @@
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
   </Project>
+  <Project Path="Otori/Otori.csproj" Id="13e6102d-9967-4e37-9621-0cd2e8ca38ef" />
   <Project Path="Sakaishi/Sakaishi.csproj" />
 </Solution>

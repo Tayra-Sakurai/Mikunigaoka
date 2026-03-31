@@ -52,6 +52,15 @@ namespace Sakaishi.Contexts
 
                     t.Property(e => e.Vector)
                     .IsRequired();
+
+                    t.Navigation(e => e.Category)
+                    .AutoInclude();
+
+                    t.Navigation(e => e.PaymentMethod)
+                    .AutoInclude();
+
+                    t.ToTable(b =>
+                    b.HasCheckConstraint("CK_Balance", "[Expense] > 0 AND [Income] = 0 OR [Expense] = 0 AND [Income] > 0"));
                 });
 
             modelBuilder.Entity<LargeCategory>(
@@ -64,6 +73,9 @@ namespace Sakaishi.Contexts
 
                     t.Property(e => e.Vector)
                     .IsRequired();
+
+                    t.Navigation(e => e.SmallCategories)
+                    .AutoInclude();
                 });
 
             modelBuilder.Entity<SmallCategory>(
@@ -76,6 +88,12 @@ namespace Sakaishi.Contexts
 
                     t.Property(e => e.Vector)
                     .IsRequired();
+
+                    t.Navigation(e => e.Items)
+                    .AutoInclude();
+
+                    t.Navigation(e => e.LargeCategory)
+                    .AutoInclude();
                 });
 
             modelBuilder.Entity<PaymentMethod>(
@@ -85,6 +103,9 @@ namespace Sakaishi.Contexts
 
                     t.Property(e => e.Name)
                     .IsRequired();
+
+                    t.Navigation(e => e.Items)
+                    .AutoInclude();
                 });
         }
     }

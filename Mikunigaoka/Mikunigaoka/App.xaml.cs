@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using Otori.Services;
 using Sakaishi.Contexts;
 using Sakaishi.Services;
 using System;
@@ -59,6 +60,7 @@ namespace Mikunigaoka
 
             services.AddSingleton<IVectorService, GoogleVectorService>();
             services.AddSingleton<IDatabaseService<SakaishiContext>, SakaishiDatabaseService>();
+            services.AddSingleton<ISettingsService, WindowsSettingsService>();
 
             return services.BuildServiceProvider();
         }

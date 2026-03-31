@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Hineno\Hineno.csproj" />
+    <ProjectReference Include="..\..\Otori\Otori.csproj" />
     <ProjectReference Include="..\..\Sakaishi\Sakaishi.csproj" />
   </ItemGroup>
 

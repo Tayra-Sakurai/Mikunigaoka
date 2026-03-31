@@ -50,7 +50,7 @@ namespace Sakaishi.ViewModels
             await LoadAsync();
         }
 
-
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(IsSearchStringValid))]
         public async Task SearchAsync(string query)
         {
             List<float> scores = [];
@@ -67,6 +67,11 @@ namespace Sakaishi.ViewModels
 
             foreach (Item item in values)
                 Items.Add(item);
+        }
+
+        private static bool IsSearchStringValid(string query)
+        {
+            return !string.IsNullOrWhiteSpace(query);
         }
     }
 }

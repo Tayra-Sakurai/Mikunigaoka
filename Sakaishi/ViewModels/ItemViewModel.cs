@@ -4,16 +4,18 @@ using Hineno.Services;
 using Sakaishi.Contexts;
 using Sakaishi.Models;
 using Sakaishi.Services;
+using Sakaishi.Validations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Sakaishi.ViewModels
 {
-    public partial class ItemViewModel : ObservableObject
+    public partial class ItemViewModel : ObservableValidator
     {
         private readonly IDatabaseService<SakaishiContext> databaseService;
         private readonly IVectorService vectorService;
@@ -51,7 +53,7 @@ namespace Sakaishi.ViewModels
                 PaymentMethods.Add(paymentMethod);
         }
 
-        [RelayCommand(AllowConcurrentExecutions = false)]
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanSave))]
         public async Task SaveAsync()
         {
             // Calculate the vector.
@@ -86,12 +88,14 @@ namespace Sakaishi.ViewModels
             set => SetProperty(model.DateTime.TimeOfDay, value, model, SetTime);
         }
 
+        [Required]
         public string Title
         {
             get => model.Title;
             set => SetProperty(model.Title, value, model, (m, v) => m.Title = v);
         }
 
+        [Required]
         public string Description
         {
             get => model.Description;
@@ -110,16 +114,28 @@ namespace Sakaishi.ViewModels
             set => SetProperty(model.Category, value, model, (m, v) => m.Category = v);
         }
 
+        [Required]
+        [BalanceValidation(nameof(Income))]
         public double Expense
         {
             get => model.Expense;
-            set => SetProperty(model.Expense, value, model, (m, v) => m.Expense = v);
+            set
+            {
+                SetProperty(model.Expense, value, model, (m, v) => m.Expense = v);
+                ValidateProperty(Income, nameof(Income));
+            }
         }
 
+        [Required]
+        [BalanceValidation(nameof(Expense))]
         public double Income
         {
             get => model.Income;
-            set => SetProperty(model.Income, value, model, (m, v) => m.Income = v);
+            set
+            {
+                SetProperty(model.Income, value, model, (m, v) => m.Income = v);
+                ValidateProperty(Expense, nameof(Expense));
+            }
         }
 
         private static void SetDate(Item model, DateTimeOffset value)
@@ -141,6 +157,11 @@ namespace Sakaishi.ViewModels
             SmallCategories.Clear();
             foreach (SmallCategory small in value.SmallCategories)
                 SmallCategories.Add(small);
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Description);
         }
     }
 }

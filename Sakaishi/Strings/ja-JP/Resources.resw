@@ -121,4 +121,7 @@
     <value>収入および支出の値は0より大きな値でなければならず，さらに両方を設定することはできません．</value>
     <comment>収入と支出が共存できないことの説明．</comment>
   </data>
+  <data name="RequiredStringMessage" xml:space="preserve">
+    <value>この値は必須であり，また空白や改行以外の文字を含まなければなりません．</value>
+  </data>
 </root>

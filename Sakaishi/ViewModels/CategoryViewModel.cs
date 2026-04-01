@@ -29,11 +29,11 @@ namespace Sakaishi.ViewModels
             category = new();
         }
 
-        public async Task InitializeForExistingAsync(TCategory category)
+        public virtual async Task InitializeForExistingAsync(TCategory category)
         {
             this.category = category;
 
-            OnPropertyChanged();
+            OnPropertyChanged(nameof(Name));
         }
 
         [Required]
@@ -43,7 +43,7 @@ namespace Sakaishi.ViewModels
             get => category.Name;
             set
             {
-                SetProperty(category.Name, value, category, (m, v) => m.Name = v);
+                SetProperty(category.Name, value, category, (m, v) => m.Name = v, true);
                 SaveCommand.NotifyCanExecuteChanged();
             }
         }

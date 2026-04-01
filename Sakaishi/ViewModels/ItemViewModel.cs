@@ -93,7 +93,7 @@ namespace Sakaishi.ViewModels
         public string Title
         {
             get => model.Title;
-            set => SetProperty(model.Title, value, model, (m, v) => m.Title = v);
+            set => SetProperty(model.Title, value, model, (m, v) => m.Title = v, true);
         }
 
         [Required]
@@ -101,7 +101,7 @@ namespace Sakaishi.ViewModels
         public string Description
         {
             get => model.Description;
-            set => SetProperty(model.Description, value, model, (m, v) => m.Description = v);
+            set => SetProperty(model.Description, value, model, (m, v) => m.Description = v, true);
         }
 
         public LargeCategory LargeCategory
@@ -123,8 +123,8 @@ namespace Sakaishi.ViewModels
             get => model.Expense;
             set
             {
-                SetProperty(model.Expense, value, model, (m, v) => m.Expense = v);
-                ValidateProperty(Income, nameof(Income));
+                if (SetProperty(model.Expense, value, model, (m, v) => m.Expense = v, true))
+                    ValidateProperty(Income, nameof(Income));
             }
         }
 
@@ -135,8 +135,8 @@ namespace Sakaishi.ViewModels
             get => model.Income;
             set
             {
-                SetProperty(model.Income, value, model, (m, v) => m.Income = v);
-                ValidateProperty(Expense, nameof(Expense));
+                if (SetProperty(model.Income, value, model, (m, v) => m.Income = v, true))
+                    ValidateProperty(Expense, nameof(Expense));
             }
         }
 

@@ -16,7 +16,7 @@ namespace Otori.Services
             local = ApplicationData.Current.LocalSettings;
         }
 
-        private bool SetLocalSetting(string key, object value)
+        private bool SetLocalSetting<TValue>(string key, TValue value)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(key);
 
@@ -33,17 +33,17 @@ namespace Otori.Services
 
         public bool SetLocalSetting(string key, string value)
         {
-            return SetLocalSetting(key, value as object);
+            return SetLocalSetting<string>(key, value);
         }
 
         public bool SetLocalSetting(string key, int value)
         {
-            return SetLocalSetting(key, value as object);
+            return SetLocalSetting<int>(key, value);
         }
 
         public bool SetLocalSetting(string key, bool value)
         {
-            return SetLocalSetting(key, value as object);
+            return SetLocalSetting<bool>(key, value);
         }
     }
 }

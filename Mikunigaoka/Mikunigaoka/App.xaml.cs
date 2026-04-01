@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Shapes;
 using Otori.Services;
 using Sakaishi.Contexts;
 using Sakaishi.Services;
+using Sakaishi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -61,6 +62,13 @@ namespace Mikunigaoka
             services.AddSingleton<IVectorService, GoogleVectorService>();
             services.AddSingleton<IDatabaseService<SakaishiContext>, SakaishiDatabaseService>();
             services.AddSingleton<ISettingsService, WindowsSettingsService>();
+
+            services.AddTransient<CategoriesViewModel>();
+            services.AddTransient<ItemsViewModel>();
+            services.AddTransient<ItemViewModel>();
+            services.AddTransient<LargeCategoryViewModel>();
+            services.AddTransient<PaymentMethodsViewModel>();
+            services.AddTransient<SmallCategoryViewModel>();
 
             return services.BuildServiceProvider();
         }

@@ -16,5 +16,15 @@ namespace Otori.ViewModels
         {
             this.settingsService = settingsService;
         }
+
+        public bool? IsInitialized
+        {
+            get => settingsService.GetLocalSetting("IsInitialized") as bool?;
+            set
+            {
+                settingsService.SetLocalSetting("IsInitialized", value);
+                OnPropertyChanged();
+            }
+        }
     }
 }

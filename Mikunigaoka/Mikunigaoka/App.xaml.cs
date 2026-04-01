@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using Otori.Services;
+using Otori.ViewModels;
 using Sakaishi.Contexts;
 using Sakaishi.Services;
 using Sakaishi.ViewModels;
@@ -19,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -68,6 +70,7 @@ namespace Mikunigaoka
             services.AddTransient<ItemViewModel>();
             services.AddTransient<LargeCategoryViewModel>();
             services.AddTransient<PaymentMethodsViewModel>();
+            services.AddTransient<SettingsViewModel>();
             services.AddTransient<SmallCategoryViewModel>();
 
             return services.BuildServiceProvider();
@@ -77,8 +80,16 @@ namespace Mikunigaoka
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            if (ApplicationData.Current.Version < 1u)
+            {
+                await ApplicationData.Current.SetVersionAsync(1u,
+                    args =>
+                    {
+                        return;
+                    });
+            }
 
             _window = new MainWindow();
             _window.Activate();

@@ -21,9 +21,23 @@ namespace Otori.Services
 
         /// <exception cref="ArgumentException"><paramref name="key"/> contains only white spaces.</exception>
         /// <inheritdoc cref="SetLocalSetting(string, string)"/>
-        bool SetLocalSetting(string key, bool value);
+        bool SetLocalSetting(string key, bool? value);
 
         /// <inheritdoc cref="SetLocalSetting(string, bool)"/>
-        bool SetLocalSetting(string key, int value);
+        bool SetLocalSetting(string key, int? value);
+
+        /// <summary>
+        /// Retrieves the value of a local setting identified by the specified key.
+        /// </summary>
+        /// <param name="key">The key that uniquely identifies the local setting to retrieve. Cannot be null or empty.</param>
+        /// <returns>The value associated with the specified key.</returns>
+        /// <exception cref="ArgumentException"><paramref name="key"/> is invalid.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
+        object GetLocalSetting(string key);
+
+        /// <typeparam name="TValue">The type of the value to be retrieved.</typeparam>
+        /// <exception cref="InvalidCastException">The value is uncastable to <typeparamref name="TValue"/>.</exception>
+        /// <inheritdoc cref="GetLocalSetting(string)"/>
+        TValue GetLocalSetting<TValue>(string key);
     }
 }

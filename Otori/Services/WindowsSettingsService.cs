@@ -36,14 +36,33 @@ namespace Otori.Services
             return SetLocalSetting<string>(key, value);
         }
 
-        public bool SetLocalSetting(string key, int value)
+        public bool SetLocalSetting(string key, int? value)
         {
-            return SetLocalSetting<int>(key, value);
+            return SetLocalSetting<int?>(key, value);
         }
 
-        public bool SetLocalSetting(string key, bool value)
+        public bool SetLocalSetting(string key, bool? value)
         {
-            return SetLocalSetting<bool>(key, value);
+            return SetLocalSetting<bool?>(key, value);
+        }
+
+        public object GetLocalSetting(string key)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(key);
+
+            return local.Values[key];
+        }
+
+        public TValue GetLocalSetting<TValue>(string key)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(key);
+
+            object value = GetLocalSetting(key);
+
+            if (value is not TValue result)
+                throw new InvalidCastException("The value was not the specified type.");
+
+            return result;
         }
     }
 }

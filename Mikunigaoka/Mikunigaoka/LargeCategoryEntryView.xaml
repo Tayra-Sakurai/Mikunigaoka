@@ -14,7 +14,16 @@
     <Grid Padding="0"
           RowSpacing="8"
           HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Uid="LargeCategorydesc"
+                   Style="{StaticResource BodyTextBlockStyle}"
+                   TextWrapping="WrapWholeWords"/>
+        
         <controls:ValidationTextBox x:Uid="LargeCategoryName"
-                                    Text="{Binding DataContext.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Text="{Binding DataContext.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Grid.Row="1"/>
     </Grid>
 </UserControl>

@@ -11,6 +11,9 @@
     <WinUISDKReferences>false</WinUISDKReferences>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="SmallCategoryAdditionPage.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
@@ -37,6 +40,12 @@
     <ProjectReference Include="..\..\Hineno\Hineno.csproj" />
     <ProjectReference Include="..\..\Otori\Otori.csproj" />
     <ProjectReference Include="..\..\Sakaishi\Sakaishi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SmallCategoryAdditionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
     <!-- Publish Properties -->

@@ -13,13 +13,23 @@
     mc:Ignorable="d">
 
     <Grid ColumnSpacing="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
+        <TextBlock x:Uid="SmallCategoryDesc"
+                   Style="{StaticResource BodyTextBlockStyle}"
+                   TextWrapping="WrapWholeWords"
+                   Grid.ColumnSpan="2"/>
+
         <ComboBox ItemsSource="{Binding LargeCategories}"
-                  SelectedItem="{Binding LargeCategory}">
+                  SelectedItem="{Binding LargeCategory}"
+                  Grid.Row="1">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="models:LargeCategory">
                     <TextBlock Text="{x:Bind Name}"/>
@@ -33,6 +43,6 @@
 
         <controls:ValidationTextBox x:Uid="SmallCategoryName"
                                     Text="{Binding DataContext.Name}"
-                                    Grid.Column="1"/>
+                                    Grid.Column="1" Grid.Row="1"/>
     </Grid>
 </UserControl>

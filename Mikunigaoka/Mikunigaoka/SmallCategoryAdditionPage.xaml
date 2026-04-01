@@ -24,5 +24,14 @@
         <TextBlock Style="{StaticResource BodyTextBlockStyle}"
                    TextWrapping="WrapWholeWords"
                    x:Name="SuperDescriptions"/>
+
+        <local:SmallCategoryView Grid.Row="1"/>
+
+        <CommandBar Grid.Row="3"
+                    DefaultLabelPosition="Right">
+            <AppBarButton Icon="Add"
+                          x:Uid="SCAddition"
+                          Command="{Binding AddCommand}"/>
+        </CommandBar>
     </Grid>
 </Page>

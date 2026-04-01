@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Hineno.Services;
 using Sakaishi.Contexts;
+using Sakaishi.Messages;
 using Sakaishi.Models;
 using Sakaishi.Services;
 using System;
@@ -41,5 +44,31 @@ namespace Sakaishi.ViewModels
             OnPropertyChanged(nameof(LargeCategories));
             OnPropertyChanged(nameof(LargeCategory));
         }
+
+        public async Task LoadAsync()
+        {
+            LargeCategories.Clear();
+
+            foreach (LargeCategory largeCategory in await databaseService.GetEntitiesAsync(context => context.LargeCategories))
+                LargeCategories.Add(largeCategory);
+
+            OnPropertyChanged(nameof(LargeCategories));
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanAdd))]
+        public async Task AddAsync()
+        {
+            category.Vector = await vectorService.GenerateVectorAsync(category.Name);
+
+            await databaseService.AddAsync(category);
+
+            WeakReferenceMessenger.Default.Send(new SmallCategoryAddedMessage(category));
+        }
+
+        private bool CanAdd()
+        {
+            return !databaseService.Exists(category) && string.IsNullOrWhiteSpace(Name);
+        }
+
     }
 }

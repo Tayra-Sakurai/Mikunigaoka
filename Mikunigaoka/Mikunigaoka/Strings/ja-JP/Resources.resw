@@ -121,6 +121,9 @@
     <value>はじめに，大分類の項目を追加します．</value>
     <comment>初回起動時の大分類追加の案内文．</comment>
   </data>
+  <data name="LargeCategoryAdditionNormalDescription" xml:space="preserve">
+    <value>大分類を追加します．</value>
+  </data>
   <data name="LargeCategoryDesc.Text" xml:space="preserve">
     <value>大分類によって各項目の大まかな区分を定義できます．</value>
     <comment>大分類の説明文.</comment>
@@ -136,8 +139,14 @@
   <data name="LCAddition.Label" xml:space="preserve">
     <value>追加</value>
   </data>
+  <data name="SCAddition.Label" xml:space="preserve">
+    <value>追加</value>
+  </data>
   <data name="SmallCategoryAdditionDescription" xml:space="preserve">
     <value>続いて，小分類を登録します．</value>
+  </data>
+  <data name="SmallCategoryAdditionNormalDescription" xml:space="preserve">
+    <value>小分類を追加します．</value>
   </data>
   <data name="SmallCategoryDesc.Text" xml:space="preserve">
     <value>小分類によって，各項目を細かく分類することができます．</value>

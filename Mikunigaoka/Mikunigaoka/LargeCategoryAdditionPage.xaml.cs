@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Windows.ApplicationModel.Resources;
+using Otori.ViewModels;
 using Sakaishi.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,23 @@ namespace Mikunigaoka
             InitializeComponent();
 
             DataContext = App.Current.Service.GetRequiredService<LargeCategoryViewModel>();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            SettingsViewModel settingsViewModel = App.Current.Service.GetRequiredService<SettingsViewModel>();
+
+            ResourceLoader resourceLoader = new();
+
+            if (settingsViewModel.IsInitialized is not true)
+            {
+                SuperDescriptionBlock.Text = resourceLoader.GetString("LargeCategoryAdditionDescription");
+                return;
+            }
+
+            SuperDescriptionBlock.Text = resourceLoader.GetString("LargecategoryAdditionNormalDescription");
         }
     }
 }

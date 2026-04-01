@@ -70,5 +70,11 @@ namespace Sakaishi.ViewModels
             return !databaseService.Exists(category) && string.IsNullOrWhiteSpace(Name);
         }
 
+        public override async Task DeleteAsync()
+        {
+            await databaseService.DeleteAsync(category);
+
+            WeakReferenceMessenger.Default.Send(new SmallCategoryDeletedMessage(category));
+        }
     }
 }

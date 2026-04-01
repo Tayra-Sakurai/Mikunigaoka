@@ -18,21 +18,11 @@ using Windows.Foundation.Collections;
 
 namespace Mikunigaoka
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class ItemEntryView : UserControl
     {
-        public MainWindow()
+        public ItemEntryView()
         {
             InitializeComponent();
-
-            Activated += MainWindow_Activated;
-        }
-
-        private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
-        {
-            MainFrame.Navigate(typeof(LargeCategoryAdditionPage));
         }
     }
 }

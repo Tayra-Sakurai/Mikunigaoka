@@ -31,4 +31,32 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="local2:ValidationNumberBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local2:ValidationNumberBox">
+                    <Grid RowSpacing="8"
+                          ColumnSpacing="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <NumberBox Name="PART_NumberBox"
+                                   Value="{TemplateBinding Value}"
+                                   Header="{TemplateBinding Header}"/>
+                        <InfoBar Name="PART_InfoBar"
+                                 Grid.Row="1"
+                                 Visibility="Collapsed">
+                            <InfoBar.IconSource>
+                                <FontIconSource Glyph="&#xEB90;"/>
+                            </InfoBar.IconSource>
+                        </InfoBar>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

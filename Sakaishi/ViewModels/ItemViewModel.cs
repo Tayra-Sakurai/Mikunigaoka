@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Hineno.Services;
 using Sakaishi.Contexts;
+using Sakaishi.Messages;
 using Sakaishi.Models;
 using Sakaishi.Services;
 using Sakaishi.Validations;
@@ -67,6 +69,14 @@ namespace Sakaishi.ViewModels
             await databaseService.UpdateAsync(model);
         }
 
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanDelete))]
+        public async Task DeleteAsync()
+        {
+            await databaseService.DeleteAsync(model);
+
+            WeakReferenceMessenger.Default.Send(new ItemDeletedMessage(model));
+        }
+
         [ObservableProperty]
         private ObservableCollection<LargeCategory> largeCategories;
 
@@ -114,6 +124,12 @@ namespace Sakaishi.ViewModels
         {
             get => model.Category;
             set => SetProperty(model.Category, value, model, (m, v) => m.Category = v);
+        }
+
+        public PaymentMethod PaymentMethod
+        {
+            get => model.PaymentMethod;
+            set => SetProperty(model.PaymentMethod, value, model, (m, v) => m.PaymentMethod = v);
         }
 
         [Required]
@@ -164,6 +180,11 @@ namespace Sakaishi.ViewModels
         private bool CanSave()
         {
             return !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Description);
+        }
+
+        private bool CanDelete()
+        {
+            return databaseService.Exists(model);
         }
     }
 }

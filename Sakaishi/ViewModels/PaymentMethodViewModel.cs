@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Sakaishi.Contexts;
+using Sakaishi.Messages;
 using Sakaishi.Models;
 using Sakaishi.Services;
 using System;
@@ -55,5 +57,18 @@ namespace Sakaishi.ViewModels
         }
 
         public double? Balance => paymentMethod?.Items.Sum(i => i.Income - i.Expense);
+
+        private bool CanDelete()
+        {
+            return databaseService.Exists(paymentMethod);
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanDelete))]
+        public async Task DeleteAsync()
+        {
+            await databaseService.DeleteAsync(paymentMethod);
+
+            WeakReferenceMessenger.Default.Send(new PaymentMethodDeletedMessage(paymentMethod));
+        }
     }
 }

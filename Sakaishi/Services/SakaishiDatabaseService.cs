@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Sakaishi.Contexts;
 using System;
 using System.Collections.Generic;
@@ -80,6 +81,33 @@ namespace Sakaishi.Services
             using SakaishiContext context = await factory.CreateDbContextAsync();
             DbSet<TEntity> entities = context.Set<TEntity>();
             return await entities.ToListAsync();
+        }
+
+        public bool Exists(object entity)
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            using SakaishiContext context = factory.CreateDbContext();
+            EntityEntry entry = context.Attach(entity);
+
+            if (entry is null ||
+                entry.State == EntityState.Added)
+                return false;
+
+            return true;
+        }
+        
+        public bool Exists<TEntity>(TEntity entity)
+            where TEntity : class
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            using SakaishiContext context = factory.CreateDbContext();
+            EntityEntry<TEntity> entry = context.Attach(entity);
+
+            if (entry is null ||
+                entry.State != EntityState.Unchanged)
+                return false;
+
+            return true;
         }
     }
 }

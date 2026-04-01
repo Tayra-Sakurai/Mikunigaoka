@@ -78,7 +78,22 @@ namespace Sakaishi.Services
         /// <typeparam name="TEntity">The type of entity to retrieve. Must be a reference type.</typeparam>
         /// <returns>A task that represents the asynchronous operation. The task result contains a list of entities of type
         /// TEntity.</returns>
+        /// <exception cref="InvalidOperationException"><typeparamref name="TEntity"/> does not exists in the database models.</exception>
         Task<IList<TEntity>> GetEntitiesAsync<TEntity>()
+            where TEntity : class;
+
+        /// <summary>
+        /// Checks if <paramref name="entity"/> exists or not.
+        /// </summary>
+        /// <param name="entity">The entity to be checked its existence.</param>
+        /// <returns>true if <paramref name="entity"/> exists in the database referred by the instance of <typeparamref name="TContext"/> in the implemention; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="entity"/> is null.</exception>
+        /// <exception cref="InvalidOperationException">The operation is invalid.</exception>
+        bool Exists(object entity);
+
+        /// <typeparam name="TEntity">The refrerred entity type.</typeparam>
+        /// <inheritdoc cref="Exists(object)"/>
+        bool Exists<TEntity>(TEntity entity)
             where TEntity : class;
     }
 }

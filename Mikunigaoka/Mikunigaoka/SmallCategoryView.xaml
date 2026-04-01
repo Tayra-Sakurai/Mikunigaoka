@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="Mikunigaoka.SmallCategoryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Mikunigaoka"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Sakaishi.ViewModels"
+    xmlns:models="using:Sakaishi.Models"
+    xmlns:controls="using:Mikunigaoka.Controls"
+    d:DataContext="{d:DesignInstance Type=viewmodels:SmallCategoryViewModel}"
+    mc:Ignorable="d">
+
+    <Grid ColumnSpacing="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <ComboBox ItemsSource="{Binding LargeCategories}"
+                  SelectedItem="{Binding LargeCategory}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="models:LargeCategory">
+                    <TextBlock Text="{x:Bind Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem"
+                       BasedOn="{StaticResource DefaultComboBoxItemStyle}"/>
+            </ComboBox.ItemContainerStyle>
+        </ComboBox>
+
+        <controls:ValidationTextBox x:Uid="SmallCategoryName"
+                                    Text="{Binding DataContext.Name}"
+                                    Grid.Column="1"/>
+    </Grid>
+</UserControl>

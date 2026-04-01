@@ -60,5 +60,16 @@ namespace Sakaishi.ViewModels
         {
             return !string.IsNullOrWhiteSpace(Name);
         }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanDelete))]
+        public virtual async Task DeleteAsync()
+        {
+            await databaseService.DeleteAsync(category);
+        }
+
+        protected bool CanDelete()
+        {
+            return databaseService.Exists(category);
+        }
     }
 }

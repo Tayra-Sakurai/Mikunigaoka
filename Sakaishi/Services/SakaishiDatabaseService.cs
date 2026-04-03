@@ -109,5 +109,44 @@ namespace Sakaishi.Services
 
             return true;
         }
+
+        public async Task<IList<TEntity>> FilterAndGetEntitiesAsync<TEntity, TFiltered>(TFiltered filter, Func<SakaishiContext, DbSet<TEntity>> factory, Func<TEntity, TFiltered> selector)
+            where TEntity : class
+            where TFiltered : IEquatable<TFiltered>
+        {
+            ArgumentNullException.ThrowIfNull(filter);
+            ArgumentNullException.ThrowIfNull(factory);
+            ArgumentNullException.ThrowIfNull(selector);
+
+            // All entities.
+            IList<TEntity> entities = await GetEntitiesAsync(factory);
+
+            List<TEntity> filteredEntities =
+                entities.Where(entity => selector(entity).Equals(filter))
+                .ToList();
+
+            return filteredEntities;
+        }
+
+        public async Task<IList<TEntity>> FilterAndGetEntitiesAsync<TEntity>(Func<SakaishiContext, DbSet<TEntity>> factory, Func<TEntity, bool> predicate)
+            where TEntity : class
+        {
+            ArgumentNullException.ThrowIfNull(factory);
+            ArgumentNullException.ThrowIfNull(predicate);
+
+            IList<TEntity> entities = await GetEntitiesAsync(factory);
+
+            return [.. entities.Where(predicate)];
+        }
+
+        public async Task<IList<TEntity>> FilterAndGetEntitiesAsync<TEntity>(Func<TEntity, bool> predicate)
+            where TEntity : class
+        {
+            ArgumentNullException.ThrowIfNull(predicate);
+
+            IList<TEntity> entities = await GetEntitiesAsync<TEntity>();
+
+            return [.. entities.Where(predicate)];
+        }
     }
 }

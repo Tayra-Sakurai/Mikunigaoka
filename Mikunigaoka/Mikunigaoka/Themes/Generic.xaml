@@ -19,6 +19,8 @@
                         <TextBox Text="{TemplateBinding Text}"
                                  PlaceholderText="{TemplateBinding PlaceholderText}"
                                  Header="{TemplateBinding Header}"
+                                 AcceptsReturn="{TemplateBinding AcceptsReturn}"
+                                 MinHeight="{TemplateBinding MinHeight}"
                                  Name="PART_TextBox"/>
                         <TextBlock Grid.Row="1"
                                    Style="{StaticResource CaptionTextBlockStyle}"

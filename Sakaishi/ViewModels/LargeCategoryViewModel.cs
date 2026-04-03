@@ -31,7 +31,7 @@ namespace Sakaishi.ViewModels
 
         public bool CanAdd()
         {
-            return !databaseService.Exists(category);
+            return !databaseService.Exists(category) && !string.IsNullOrWhiteSpace(Name);
         }
 
         public override async Task DeleteAsync()

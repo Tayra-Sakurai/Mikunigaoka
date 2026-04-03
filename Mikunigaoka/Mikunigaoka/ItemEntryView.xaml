@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:Sakaishi.ViewModels"
     xmlns:models="using:Sakaishi.Models"
+    xmlns:controls="using:Mikunigaoka.Controls"
     d:DataContext="{d:DesignInstance Type=viewmodels:ItemViewModel}"
     mc:Ignorable="d">
 
@@ -17,14 +18,20 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <StackPanel Spacing="4" Orientation="Horizontal">
+
+        <TextBlock x:Uid="ItemDescription"
+                   Style="{StaticResource BodyTextBlockStyle}"/>
+
+        <StackPanel Spacing="4" Orientation="Horizontal" Grid.Row="1">
             <CalendarDatePicker Date="{Binding Date, Mode=TwoWay}" x:Uid="DatePicker"/>
             <TimePicker Time="{Binding Time, Mode=TwoWay}" x:Uid="TimePicker"/>
         </StackPanel>
         
-        <StackPanel Spacing="4" Orientation="Horizontal" Grid.Row="1">
+        <StackPanel Spacing="4" Orientation="Horizontal" Grid.Row="2">
             <ComboBox ItemsSource="{Binding LargeCategories, Mode=OneTime}"
                       SelectedItem="{Binding LargeCategory, Mode=TwoWay}"
                       x:Uid="LargeCategorySelector">
@@ -35,8 +42,8 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <ComboBox ItemsSource="{Binding SmallCategories}"
-                      SelectedItem="{Binding SmallCategory}"
+            <ComboBox ItemsSource="{Binding SmallCategories, Mode=OneTime}"
+                      SelectedItem="{Binding SmallCategory, Mode=TwoWay}"
                       x:Uid="SmallCategorySelector">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="models:SmallCategory">
@@ -55,5 +62,24 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
+
+        <controls:ValidationTextBox x:Uid="ItemTitleBox"
+                                    Text="{Binding Title}"
+                                    PropertyName="Title"
+                                    Grid.Row="3"/>
+
+        <controls:ValidationTextBox x:Uid="ItemDescBox"
+                                    Text="{Binding Description}"
+                                    PropertyName="Description"
+                                    AcceptsReturn="True"
+                                    Grid.Row="4"/>
+
+        <controls:ValidationNumberBox Value="{Binding Expense}"
+                                      PropertyName="Expense"
+                                      x:Uid="ExpenseBox"/>
+
+        <controls:ValidationNumberBox Value="{Binding Income}"
+                                      PropertyName="Income"
+                                      x:Uid="IncomeBox"/>
     </Grid>
 </UserControl>

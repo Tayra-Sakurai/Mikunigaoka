@@ -99,7 +99,12 @@ namespace Mikunigaoka.Controls
                     if (brush is Brush brush1)
                         numberBox.BorderBrush = brush1;
                 }
+
+                return;
             }
+
+            if (App.Current.Resources.TryGetValue("TextControlElevationBorderFocusedBrush", out object resourceValue) && resourceValue is Brush brush2)
+                box.BorderBrush = brush2;
         }
 
         // Template Properties

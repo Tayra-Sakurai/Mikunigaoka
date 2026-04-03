@@ -1,10 +1,12 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Otori.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,16 +25,24 @@ namespace Mikunigaoka
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private readonly SettingsViewModel viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
 
             Activated += MainWindow_Activated;
+
+            viewModel = App.Current.Service.GetRequiredService<SettingsViewModel>();
         }
 
         private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
         {
-            MainFrame.Navigate(typeof(LargeCategoryAdditionPage));
+            if (MainFrame.CurrentSourcePageType is null)
+            {
+                if (viewModel.IsInitialized is not true)
+                    MainFrame.Navigate(typeof(LargeCategoryAdditionPage));
+            }
         }
     }
 }

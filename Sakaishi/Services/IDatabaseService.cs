@@ -95,5 +95,44 @@ namespace Sakaishi.Services
         /// <inheritdoc cref="Exists(object)"/>
         bool Exists<TEntity>(TEntity entity)
             where TEntity : class;
+
+        /// <summary>
+        /// Asynchronously retrieves a list of entities that match the specified filter criteria.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity to retrieve. Must be a reference type.</typeparam>
+        /// <typeparam name="TFiltered">The type of the filter used to select entities.</typeparam>
+        /// <param name="filter">The filter criteria used to select entities. Determines which entities are included in the result.</param>
+        /// <param name="entityFactory">A function that provides access to the DbSet for the specified entity type from the database context.</param>
+        /// <param name="selector">A function that projects an entity to its corresponding filter type. Used to compare entities against the
+        /// provided filter.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a list of entities that satisfy
+        /// the filter criteria. If no entities match, the list is empty.</returns>
+        /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
+        /// <exception cref="ArgumentException">Parameters contain one or more invalid ones.</exception>
+        Task<IList<TEntity>> FilterAndGetEntitiesAsync<TEntity, TFiltered>(TFiltered filter, Func<TContext, DbSet<TEntity>> entityFactory, Func<TEntity, TFiltered> selector)
+            where TEntity : class
+            where TFiltered : IEquatable<TFiltered>;
+
+        /// <summary>
+        /// Asynchronously retrieves a list of entities of type <typeparamref name="TEntity"/> that satisfy the specified predicate from the
+        /// provided DbSet factory.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity to retrieve. Must be a reference type.</typeparam>
+        /// <param name="factory">A function that, given a database context, returns the DbSet representing the collection of entities to
+        /// query.</param>
+        /// <param name="predicate">A function that defines the conditions each entity must satisfy to be included in the result.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a list of entities of type
+        /// <typeparamref name="TEntity"/> that match the <paramref name="predicate"/>. If no entities match, the list is empty.</returns>
+        /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
+        /// <exception cref="ArgumentException">One or more arguments are invalid.</exception>
+        Task<IList<TEntity>> FilterAndGetEntitiesAsync<TEntity>(Func<TContext, DbSet<TEntity>> factory, Func<TEntity, bool> predicate)
+            where TEntity : class;
+
+        /// <summary>
+        /// Asynchronously retrieves the entities with matched type of <typeparamref name="TEntity"/>.
+        /// </summary>
+        /// <inheritdoc cref="FilterAndGetEntitiesAsync{TEntity}(Func{TContext, DbSet{TEntity}}, Func{TEntity, bool})"/>
+        Task<IList<TEntity>> FilterAndGetEntitiesAsync<TEntity>(Func<TEntity, bool> predicate)
+            where TEntity : class;
     }
 }

@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExpenseBox.Header" xml:space="preserve">
+    <value>支出</value>
+  </data>
+  <data name="IncomeBpx.Header" xml:space="preserve">
+    <value>収入</value>
+  </data>
+  <data name="ItemAdditionEditionDescription.Text" xml:space="preserve">
+    <value>家計簿に項目を追加または編集します．</value>
+  </data>
+  <data name="ItemDescription.Text" xml:space="preserve">
+    <value>家計簿の項目です．</value>
+  </data>
   <data name="LargeCategoryAdditionDescription" xml:space="preserve">
     <value>はじめに，大分類の項目を追加します．</value>
     <comment>初回起動時の大分類追加の案内文．</comment>

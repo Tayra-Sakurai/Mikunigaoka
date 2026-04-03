@@ -73,7 +73,12 @@ public sealed partial class ValidationTextBox : Control
                 if (brush is not null)
                     box.BorderBrush = brush;
             }
+
+            return;
         }
+
+        if (App.Current.Resources.TryGetValue("TextControlElevationBorderFocusedBrush", out object resourceValue) && resourceValue is Brush brush1)
+            box.BorderBrush = brush1;
     }
 
     protected override void OnApplyTemplate()
@@ -147,4 +152,28 @@ public sealed partial class ValidationTextBox : Control
 
         ((ValidationTextBox)sender).RefreshErrors();
     }
+
+    public bool AcceptsReturn
+    {
+        get => (bool)GetValue(AcceptsReturnProperty);
+        set => SetValue(AcceptsReturnProperty, value);
+    }
+
+    private static readonly DependencyProperty AcceptsReturnProperty = DependencyProperty.Register(
+        nameof(AcceptsReturn),
+        typeof(bool),
+        typeof(ValidationTextBox),
+        new(false));
+
+    public new double MinHeight
+    {
+        get => (double)GetValue(MinHeightProperty);
+        set => SetValue(MinHeightProperty, value);
+    }
+
+    private static readonly new DependencyProperty MinHeightProperty = DependencyProperty.Register(
+        nameof(MinHeight),
+        typeof(double),
+        typeof(ValidationTextBox),
+        new(default(double)));
 }

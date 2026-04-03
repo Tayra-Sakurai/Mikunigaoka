@@ -23,7 +23,8 @@
                    TextWrapping="WrapWholeWords"/>
         
         <controls:ValidationTextBox x:Uid="LargeCategoryName"
-                                    Text="{Binding DataContext.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    PropertyName="Name"
                                     Grid.Row="1"/>
     </Grid>
 </UserControl>

@@ -29,7 +29,8 @@
 
         <ComboBox ItemsSource="{Binding LargeCategories}"
                   SelectedItem="{Binding LargeCategory}"
-                  Grid.Row="1">
+                  Grid.Row="1"
+                  x:Uid="LargeCategoryComboBox">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="models:LargeCategory">
                     <TextBlock Text="{x:Bind Name}"/>
@@ -42,7 +43,7 @@
         </ComboBox>
 
         <controls:ValidationTextBox x:Uid="SmallCategoryName"
-                                    Text="{Binding DataContext.Name}"
+                                    Text="{Binding Name}"
                                     Grid.Column="1" Grid.Row="1"/>
     </Grid>
 </UserControl>

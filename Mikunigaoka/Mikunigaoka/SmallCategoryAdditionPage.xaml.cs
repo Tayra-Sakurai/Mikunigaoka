@@ -25,11 +25,20 @@ namespace Mikunigaoka
     /// </summary>
     public sealed partial class SmallCategoryAdditionPage : Page
     {
+        private readonly SmallCategoryViewModel viewModel;
+
         public SmallCategoryAdditionPage()
         {
             InitializeComponent();
 
-            DataContext = App.Current.Service.GetRequiredService<SmallCategoryViewModel>();
+            viewModel = App.Current.Service.GetRequiredService<SmallCategoryViewModel>();
+        }
+
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            await viewModel.LoadAsync();
         }
     }
 }

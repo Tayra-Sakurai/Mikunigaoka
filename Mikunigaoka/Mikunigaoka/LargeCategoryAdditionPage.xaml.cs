@@ -37,6 +37,8 @@ namespace Mikunigaoka
 
             DataContext = App.Current.Service.GetRequiredService<LargeCategoryViewModel>();
             viewModel = App.Current.Service.GetRequiredService<SettingsViewModel>();
+
+            WeakReferenceMessenger.Default.Register(this);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -56,7 +58,7 @@ namespace Mikunigaoka
 
         public void Receive(LargeCategoryAddedMessage message)
         {
-            if (viewModel.IsInitialized is true)
+            if (viewModel.IsInitialized is not true)
                 Frame.Navigate(typeof(SmallCategoryAdditionPage));
         }
     }

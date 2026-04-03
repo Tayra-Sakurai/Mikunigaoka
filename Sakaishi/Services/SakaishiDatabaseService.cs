@@ -18,6 +18,7 @@ namespace Sakaishi.Services
             this.factory = factory;
             using SakaishiContext context = this.factory.CreateDbContext();
             context.Database.Migrate();
+            context.SaveChanges();
         }
 
         public async Task AddAsync(object entity)

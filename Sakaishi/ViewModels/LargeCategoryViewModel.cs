@@ -40,5 +40,17 @@ namespace Sakaishi.ViewModels
 
             WeakReferenceMessenger.Default.Send(new LargeCategoryDeletedMessage(category));
         }
+
+        public new string Name
+        {
+            get => category.Name;
+            set
+            {
+                SetProperty(category.Name, value, category, (m, v) => m.Name = v, true);
+
+                SaveCommand.NotifyCanExecuteChanged();
+                AddCommand.NotifyCanExecuteChanged();
+            }
+        }
     }
 }

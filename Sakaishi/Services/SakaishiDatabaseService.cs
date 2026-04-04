@@ -149,5 +149,31 @@ namespace Sakaishi.Services
 
             return [.. entities.Where(predicate)];
         }
+
+        public async Task<IList<TEntity>> GetEntitiesAsync<TEntity, TInclude>(Func<SakaishiContext, DbSet<TEntity>> dbSetSelector, System.Linq.Expressions.Expression<Func<TEntity, TInclude>> includesSelector)
+            where TEntity : class
+        {
+            ArgumentNullException.ThrowIfNull(dbSetSelector);
+            ArgumentNullException.ThrowIfNull(includesSelector);
+
+            using SakaishiContext context = await factory.CreateDbContextAsync();
+
+            return await dbSetSelector(context).Include(includesSelector)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IList<TEntity>> GetEntitiesAsync<TEntity, TInclude>(System.Linq.Expressions.Expression<Func<TEntity, TInclude>> includesSelector)
+            where TEntity : class
+        {
+            ArgumentNullException.ThrowIfNull(includesSelector);
+
+            using SakaishiContext context = await factory.CreateDbContextAsync();
+
+            return await context.Set<TEntity>()
+                .Include(includesSelector)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

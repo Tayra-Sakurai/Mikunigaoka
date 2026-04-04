@@ -83,6 +83,22 @@ namespace Sakaishi.Services
             where TEntity : class;
 
         /// <summary>
+        /// Asynchronously loads the entities with the relations included.
+        /// </summary>
+        /// <typeparam name="TEntity">The target entity type.</typeparam>
+        /// <typeparam name="TInclude">The property value type of the navigation properties.</typeparam>
+        /// <param name="dbSetSelector">The selector function of the <see cref="DbSet{TEntity}"/>.</param>
+        /// <param name="includesSelector">Inclusion selector function.</param>
+        /// <returns>The task to manage the asynchronous action.</returns>
+        /// <exception cref="ArgumentNullException">One argument is null.</exception>
+        Task<IList<TEntity>> GetEntitiesAsync<TEntity, TInclude>(Func<TContext, DbSet<TEntity>> dbSetSelector, System.Linq.Expressions.Expression<Func<TEntity, TInclude>> includesSelector)
+            where TEntity : class;
+
+        /// <inheritdoc cref="GetEntitiesAsync{TEntity, TInclude}(Func{TContext, DbSet{TEntity}}, System.Linq.Expressions.Expression{Func{TEntity, TInclude}})"/>
+        Task<IList<TEntity>> GetEntitiesAsync<TEntity, TInclude>(System.Linq.Expressions.Expression<Func<TEntity, TInclude>> includesSelector)
+            where TEntity : class;
+
+        /// <summary>
         /// Checks if <paramref name="entity"/> exists or not.
         /// </summary>
         /// <param name="entity">The entity to be checked its existence.</param>

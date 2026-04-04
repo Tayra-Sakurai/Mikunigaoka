@@ -58,7 +58,7 @@ namespace Sakaishi.ViewModels
         [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanAdd))]
         public async Task AddAsync()
         {
-            category.Vector = await vectorService.GenerateVectorAsync(category.Name);
+            category.Vector = await vectorService.GenerateVectorAsync(Name);
 
             await databaseService.AddAsync(category);
 

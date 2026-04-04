@@ -43,7 +43,7 @@
         </ComboBox>
 
         <controls:ValidationTextBox x:Uid="SmallCategoryName"
-                                    Text="{Binding Name}"
+                                    Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Grid.Column="1" Grid.Row="1"/>
     </Grid>
 </UserControl>

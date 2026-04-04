@@ -34,8 +34,6 @@ namespace Mikunigaoka
         public LargeCategoryAdditionPage()
         {
             InitializeComponent();
-
-            DataContext = App.Current.Service.GetRequiredService<LargeCategoryViewModel>();
             viewModel = App.Current.Service.GetRequiredService<SettingsViewModel>();
         }
 
@@ -43,9 +41,10 @@ namespace Mikunigaoka
         {
             base.OnNavigatedTo(e);
 
-            ResourceLoader resourceLoader = new();
+            DataContext = App.Current.Service.GetRequiredService<LargeCategoryViewModel>();
+            WeakReferenceMessenger.Default.Register(this);
 
-            WeakReferenceMessenger.Default.RegisterAll(this);
+            ResourceLoader resourceLoader = new();
 
             if (viewModel.IsInitialized is not true)
             {
@@ -59,14 +58,10 @@ namespace Mikunigaoka
         public void Receive(LargeCategoryAddedMessage message)
         {
             if (viewModel.IsInitialized is not true)
+            {
+                WeakReferenceMessenger.Default.UnregisterAll(this);
                 Frame.Navigate(typeof(SmallCategoryAdditionPage));
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-
-            WeakReferenceMessenger.Default.UnregisterAll(this);
+            }
         }
     }
 }

@@ -37,8 +37,6 @@ namespace Mikunigaoka
 
             DataContext = App.Current.Service.GetRequiredService<LargeCategoryViewModel>();
             viewModel = App.Current.Service.GetRequiredService<SettingsViewModel>();
-
-            WeakReferenceMessenger.Default.Register(this);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -46,6 +44,8 @@ namespace Mikunigaoka
             base.OnNavigatedTo(e);
 
             ResourceLoader resourceLoader = new();
+
+            WeakReferenceMessenger.Default.RegisterAll(this);
 
             if (viewModel.IsInitialized is not true)
             {
@@ -60,6 +60,13 @@ namespace Mikunigaoka
         {
             if (viewModel.IsInitialized is not true)
                 Frame.Navigate(typeof(SmallCategoryAdditionPage));
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            WeakReferenceMessenger.Default.UnregisterAll(this);
         }
     }
 }

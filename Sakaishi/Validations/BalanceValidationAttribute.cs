@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.Windows.ApplicationModel.Resources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
 
 namespace Sakaishi.Validations
 {
@@ -21,8 +21,6 @@ namespace Sakaishi.Validations
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            ResourceLoader loader = new("Sakaishi/Resources");
-
             object instance = validationContext.ObjectInstance;
             object otherValue = instance.GetType().GetProperty(PropertyName).GetValue(instance);
 
@@ -33,10 +31,10 @@ namespace Sakaishi.Validations
                 return ValidationResult.Success;
 
             if (numericValue < 0 || numericOtherValue < 0)
-                return new(loader.GetString("BalanceValidationMessage"));
+                return new("The fields must be as large as 0 and one must be greater than 0 and the other must equal to 0.");
 
             if (numericOtherValue > 0 && numericValue != 0)
-                return new(loader.GetString("BalanceValidationMessage"));
+                return new("The fields must be as large as 0 and one must be greater than 0 and the other must equal to 0.");
 
             return ValidationResult.Success;
         }

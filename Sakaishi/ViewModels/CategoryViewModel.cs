@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Hineno.Services;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Sakaishi.Contexts;
 using Sakaishi.Models;
 using Sakaishi.Services;
-using Sakaishi.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -37,7 +37,6 @@ namespace Sakaishi.ViewModels
         }
 
         [Required]
-        [StringNoWhiteSpaceValidation]
         public string Name
         {
             get => category.Name;

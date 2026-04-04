@@ -9,7 +9,8 @@
     mc:Ignorable="d">
 
     <Grid>
-        <NavigationView x:Name="MainNavigation">
+        <NavigationView x:Name="MainNavigation"
+                        IsSettingsVisible="False">
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Uid="ItemsNavigation" x:Name="ItemsPageNav" Icon="List" Tag="ItemsView"/>
                 <NavigationViewItem x:Uid="CategoriesNavigation" x:Name="CategoriesPageNav" Icon="Target" Tag="CategoriesView"/>

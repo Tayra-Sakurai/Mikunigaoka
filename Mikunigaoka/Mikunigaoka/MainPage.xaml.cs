@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +12,8 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Otori.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -23,8 +25,27 @@ namespace Mikunigaoka;
 /// </summary>
 public sealed partial class MainPage : Page
 {
+    private readonly SettingsViewModel settingsViewModel;
+
     public MainPage()
     {
         InitializeComponent();
+
+        settingsViewModel = App.Current.Service.GetRequiredService<SettingsViewModel>();
+    }
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+
+        if (settingsViewModel.IsInitialized is not true)
+        {
+            // Disable the navigation.
+
+            foreach (NavigationViewItem navigationViewItem in MainNavigation.MenuItems.OfType<NavigationViewItem>())
+                navigationViewItem.IsEnabled = false;
+
+            ContentFrame.Navigate(typeof(LargeCategoryAdditionPage));
+        }
     }
 }

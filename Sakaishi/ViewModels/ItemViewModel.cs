@@ -99,7 +99,6 @@ namespace Sakaishi.ViewModels
         }
 
         [Required]
-        [StringNoWhiteSpaceValidation]
         public string Title
         {
             get => model.Title;
@@ -107,7 +106,6 @@ namespace Sakaishi.ViewModels
         }
 
         [Required]
-        [StringNoWhiteSpaceValidation]
         public string Description
         {
             get => model.Description;

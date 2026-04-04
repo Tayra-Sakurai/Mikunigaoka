@@ -38,10 +38,9 @@ namespace Mikunigaoka
 
         private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
         {
-            if (MainFrame.CurrentSourcePageType is null)
+            if (MainFrame.SourcePageType is null)
             {
-                if (viewModel.IsInitialized is not true)
-                    MainFrame.Navigate(typeof(LargeCategoryAdditionPage));
+                MainFrame.Navigate(typeof(MainPage));
             }
         }
     }

@@ -13,6 +13,11 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Uid="ItemsNavigation" x:Name="ItemsPageNav" Icon="List" Tag="ItemsView"/>
                 <NavigationViewItem x:Uid="CategoriesNavigation" x:Name="CategoriesPageNav" Icon="Target" Tag="CategoriesView"/>
+                <NavigationViewItem x:Uid="PaymentMethodsNavigation" x:Name="PaymentMethodsPageNav" Tag="PaymentMethodsView">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8C7;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
             <Frame x:Name="ContentFrame"/>
         </NavigationView>

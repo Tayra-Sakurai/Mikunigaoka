@@ -12,7 +12,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="ItemsViewPage.xaml" />
     <None Remove="MainPage.xaml" />
+    <None Remove="PaymentMethodAdditionPage.xaml" />
+    <None Remove="PaymentMethodView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +25,7 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.251217-build.2433" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.251219" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
     <PackageReference Include="Google.GenAI" Version="1.6.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.14" />
@@ -40,6 +44,24 @@
     <ProjectReference Include="..\..\Hineno\Hineno.csproj" />
     <ProjectReference Include="..\..\Otori\Otori.csproj" />
     <ProjectReference Include="..\..\Sakaishi\Sakaishi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ItemsViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="PaymentMethodAdditionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="PaymentMethodView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

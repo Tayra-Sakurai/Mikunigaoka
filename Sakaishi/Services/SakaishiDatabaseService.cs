@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Sakaishi.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -150,7 +152,7 @@ namespace Sakaishi.Services
             return [.. entities.Where(predicate)];
         }
 
-        public async Task<IList<TEntity>> GetEntitiesAsync<TEntity, TInclude>(Func<SakaishiContext, DbSet<TEntity>> dbSetSelector, System.Linq.Expressions.Expression<Func<TEntity, TInclude>> includesSelector)
+        public async Task<IList<TEntity>> GetEntitiesAsync<TEntity, TInclude>(Func<SakaishiContext, DbSet<TEntity>> dbSetSelector, Expression<Func<TEntity, TInclude>> includesSelector)
             where TEntity : class
         {
             ArgumentNullException.ThrowIfNull(dbSetSelector);
@@ -163,7 +165,7 @@ namespace Sakaishi.Services
                 .ToListAsync();
         }
 
-        public async Task<IList<TEntity>> GetEntitiesAsync<TEntity, TInclude>(System.Linq.Expressions.Expression<Func<TEntity, TInclude>> includesSelector)
+        public async Task<IList<TEntity>> GetEntitiesAsync<TEntity, TInclude>(Expression<Func<TEntity, TInclude>> includesSelector)
             where TEntity : class
         {
             ArgumentNullException.ThrowIfNull(includesSelector);
@@ -173,6 +175,34 @@ namespace Sakaishi.Services
             return await context.Set<TEntity>()
                 .Include(includesSelector)
                 .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<ICollection<object>> GetRelatedEntitiesAsync(object entity, INavigation navigation)
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            ArgumentNullException.ThrowIfNull(navigation);
+
+            using SakaishiContext context = await factory.CreateDbContextAsync();
+
+            EntityEntry entry = context.Attach(entity);
+            return (ICollection<object>)entry.Collection(navigation)
+                .Query();
+        }
+
+        public async Task<IEnumerable<TInclude>> GetRelatedEntitiesAsync<TEntity, TInclude>(TEntity entity, Expression<Func<TEntity, IEnumerable<TInclude>>> selector)
+            where TEntity : class
+            where TInclude : class
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            ArgumentNullException.ThrowIfNull(selector);
+
+            using SakaishiContext context = await factory.CreateDbContextAsync();
+
+            EntityEntry<TEntity> entry = context.Attach(entity);
+
+            return await entry.Collection(selector)
+                .Query()
                 .ToListAsync();
         }
     }

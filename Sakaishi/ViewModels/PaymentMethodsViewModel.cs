@@ -31,7 +31,7 @@ namespace Sakaishi.ViewModels
         {
             PaymentMethods.Clear();
 
-            foreach (PaymentMethod paymentMethod in await databaseService.GetEntitiesAsync(context => context.PaymentMethods))
+            foreach (PaymentMethod paymentMethod in await databaseService.GetEntitiesAsync(context => context.PaymentMethods, method => method.Items))
                 PaymentMethods.Add(paymentMethod);
         }
     }

@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using Otori.Messages;
 using Otori.Services;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,8 @@ namespace Otori.ViewModels
             {
                 settingsService.SetLocalSetting("IsInitialized", value);
                 OnPropertyChanged();
+
+                WeakReferenceMessenger.Default.Send(new IsInitializedChangedMessage(value));
             }
         }
     }

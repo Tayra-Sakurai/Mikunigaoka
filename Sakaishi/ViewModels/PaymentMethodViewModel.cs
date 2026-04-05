@@ -70,5 +70,13 @@ namespace Sakaishi.ViewModels
 
             WeakReferenceMessenger.Default.Send(new PaymentMethodDeletedMessage(paymentMethod));
         }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanSave))]
+        public async Task AddAsync()
+        {
+            await databaseService.AddAsync(paymentMethod);
+
+            WeakReferenceMessenger.Default.Send(new PaymentMethodAddedMessage(paymentMethod));
+        }
     }
 }

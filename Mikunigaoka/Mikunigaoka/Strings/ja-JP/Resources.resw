@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BalanceBox.Header" xml:space="preserve">
+    <value>残高</value>
+  </data>
   <data name="CategoriesNavigation.Content" xml:space="preserve">
     <value>カテゴリー管理</value>
   </data>
@@ -125,6 +128,9 @@
   </data>
   <data name="ExpenseBox.Header" xml:space="preserve">
     <value>支出</value>
+  </data>
+  <data name="FoundNumberLabel.Text" xml:space="preserve">
+    <value>個の項目が見つかりました．</value>
   </data>
   <data name="IncomeBox.Header" xml:space="preserve">
     <value>収入</value>
@@ -171,6 +177,12 @@
   </data>
   <data name="LCAddition.Label" xml:space="preserve">
     <value>追加</value>
+  </data>
+  <data name="PaymentMethodNameBox.Header" xml:space="preserve">
+    <value>決済手段のラベル名</value>
+  </data>
+  <data name="PaymentMethodNameBox.PlaceholderText" xml:space="preserve">
+    <value>決済手段の分かりやすい名前を入力します．</value>
   </data>
   <data name="PaymentMethodSelector.Header" xml:space="preserve">
     <value>決済手段</value>

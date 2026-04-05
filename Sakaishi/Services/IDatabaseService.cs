@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -150,5 +151,31 @@ namespace Sakaishi.Services
         /// <inheritdoc cref="FilterAndGetEntitiesAsync{TEntity}(Func{TContext, DbSet{TEntity}}, Func{TEntity, bool})"/>
         Task<IList<TEntity>> FilterAndGetEntitiesAsync<TEntity>(Func<TEntity, bool> predicate)
             where TEntity : class;
+
+        /// <summary>
+        /// Asynchronously retrieves a collection of related entities for the specified entity using the provided
+        /// selector expression.
+        /// </summary>
+        /// <param name="entity">The source entity for which related entities are to be retrieved. Cannot be null.</param>
+        /// <param name="navigation">A navigation to the returning entity.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a collection of related
+        /// entities. The collection is empty if no related entities are found.</returns>
+        /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
+        /// <exception cref="InvalidOperationException">The extraction of the collection has failed.</exception>
+        Task<ICollection<object>> GetRelatedEntitiesAsync(object entity, INavigation navigation);
+
+        /// <summary>
+        /// Asynchronously gets the related entities from <paramref name="entity"/> with specified by <paramref name="selector"/>.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <typeparam name="TInclude">The type of the related entity to be loaded.</typeparam>
+        /// <param name="entity">The entity to load the including entities.</param>
+        /// <param name="selector">The specifier of the inclusion.</param>
+        /// <returns>A task which represents the asynchronous operation. The task result contains the collection of the related entities.</returns>
+        /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
+        /// <exception cref="InvalidOperationException">The inclusion finder failed to get the related entities.</exception>
+        Task<IEnumerable<TInclude>> GetRelatedEntitiesAsync<TEntity, TInclude>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, IEnumerable<TInclude>>> selector)
+            where TEntity : class
+            where TInclude : class;
     }
 }

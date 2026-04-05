@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.Windows.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace Otori.Services
 {
@@ -13,7 +13,7 @@ namespace Otori.Services
 
         public WindowsSettingsService()
         {
-            local = ApplicationData.Current.LocalSettings;
+            local = ApplicationData.GetDefault().LocalSettings;
         }
 
         private bool SetLocalSetting<TValue>(string key, TValue value)

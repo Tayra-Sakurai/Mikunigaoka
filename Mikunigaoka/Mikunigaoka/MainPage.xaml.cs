@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Otori.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Sakaishi.Messages;
+using Otori.Messages;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,20 +26,20 @@ namespace Mikunigaoka;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class MainPage : Page
+public sealed partial class MainPage : Page, IRecipient<IsInitializedChangedMessage>
 {
-    private readonly SettingsViewModel settingsViewModel;
+    private SettingsViewModel? settingsViewModel;
 
     public MainPage()
     {
         InitializeComponent();
-
-        settingsViewModel = App.Current.Service.GetRequiredService<SettingsViewModel>();
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
+
+        settingsViewModel = App.Current.Service.GetRequiredService<SettingsViewModel>();
 
         if (settingsViewModel.IsInitialized is not true)
         {
@@ -48,6 +49,17 @@ public sealed partial class MainPage : Page
                 navigationViewItem.IsEnabled = false;
 
             ContentFrame.Navigate(typeof(LargeCategoryAdditionPage));
+
+            // Register to reset
+
+            WeakReferenceMessenger.Default.Register(this);
         }
+    }
+
+    public void Receive(IsInitializedChangedMessage message)
+    {
+        if (message.Value is true)
+            foreach (NavigationViewItem navigationViewItem in MainNavigation.MenuItems.OfType<NavigationViewItem>())
+                navigationViewItem.IsEnabled = true;
     }
 }

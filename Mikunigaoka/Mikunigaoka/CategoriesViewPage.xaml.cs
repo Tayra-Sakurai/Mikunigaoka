@@ -73,7 +73,7 @@ public sealed partial class CategoriesViewPage : Page, IRecipient<LargeCategoryI
 
     public void Receive(SmallCategoryInvokedMessage message)
     {
-        throw new NotImplementedException();
+        Frame.Navigate(typeof(SmallCategoryEditionPage), message.Value);
     }
 }
 

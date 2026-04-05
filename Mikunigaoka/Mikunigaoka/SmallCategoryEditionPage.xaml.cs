@@ -1,7 +1,8 @@
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Otori.ViewModels;
 using Sakaishi.Messages;
 using Sakaishi.Models;
@@ -30,10 +31,12 @@ namespace Mikunigaoka
 
             await viewModel.LoadAsync();
 
+            ResourceLoader resourceLoader = new();
+
             if (e.Parameter is SmallCategory smallCategory)
                 await viewModel.InitializeForExistingAsync(smallCategory);
 
-            SuperDescriptions.Text = "小分類を編集します．";
+            SuperDescriptions.Text = resourceLoader.GetString("SmallCategoryEditionLabel");
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -53,8 +56,7 @@ namespace Mikunigaoka
                 return;
             }
 
-            if (settingsViewModel.IsInitialized)
-                Frame.Navigate(typeof(MainPage));
+            Frame.Navigate(typeof(ItemsViewPage));
         }
     }
 }

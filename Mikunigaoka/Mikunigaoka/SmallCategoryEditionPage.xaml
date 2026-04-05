@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Mikunigaoka.SmallCategoryEditionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Mikunigaoka"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Sakaishi.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:SmallCategoryViewModel}"
+    DataContext="{x:Bind viewModel}"
+    mc:Ignorable="d">
+
+    <Grid Padding="12,16"
+          Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+          RowSpacing="4"
+          ColumnSpacing="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Style="{StaticResource BodyTextBlockStyle}"
+                   TextWrapping="WrapWholeWords"
+                   x:Name="SuperDescriptions"/>
+
+        <local:SmallCategoryView Grid.Row="1"/>
+
+        <CommandBar Grid.Row="3"
+                    DefaultLabelPosition="Right">
+            <AppBarButton Icon="Save"
+                          Command="{x:Bind viewModel.SaveCommand}"/>
+            <AppBarButton Icon="Delete"
+                          Command="{x:Bind viewModel.DeleteCommand}"/>
+        </CommandBar>
+    </Grid>
+</Page>
+

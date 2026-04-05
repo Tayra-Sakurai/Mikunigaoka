@@ -12,7 +12,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="CategoriesViewPage.xaml" />
+    <None Remove="ItemEditAddPage.xaml" />
     <None Remove="ItemsViewPage.xaml" />
+    <None Remove="LargeCategoryEditionPage.xaml" />
     <None Remove="MainPage.xaml" />
     <None Remove="PaymentMethodAdditionPage.xaml" />
     <None Remove="PaymentMethodView.xaml" />
@@ -44,6 +47,24 @@
     <ProjectReference Include="..\..\Hineno\Hineno.csproj" />
     <ProjectReference Include="..\..\Otori\Otori.csproj" />
     <ProjectReference Include="..\..\Sakaishi\Sakaishi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="CategoriesViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="LargeCategoryEditionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ItemEditAddPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

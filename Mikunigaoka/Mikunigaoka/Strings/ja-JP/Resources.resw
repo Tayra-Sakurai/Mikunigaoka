@@ -178,6 +178,12 @@
   <data name="LCAddition.Label" xml:space="preserve">
     <value>追加</value>
   </data>
+  <data name="PaymentMethodAdditionDescriptionInitial" xml:space="preserve">
+    <value>最後に，最初の決済手段を登録します．</value>
+  </data>
+  <data name="PaymentMethodAdditionNormalDescription" xml:space="preserve">
+    <value>決済手段を登録します．</value>
+  </data>
   <data name="PaymentMethodNameBox.Header" xml:space="preserve">
     <value>決済手段のラベル名</value>
   </data>

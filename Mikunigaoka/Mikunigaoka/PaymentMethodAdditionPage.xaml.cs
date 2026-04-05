@@ -17,6 +17,7 @@ using Otori.ViewModels;
 using CommunityToolkit.Mvvm.Messaging;
 using Sakaishi.Messages;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Windows.ApplicationModel.Resources;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -46,6 +47,13 @@ public sealed partial class PaymentMethodAdditionPage : Page, IRecipient<Payment
         DataContext = viewModel;
 
         WeakReferenceMessenger.Default.Register(this);
+
+        ResourceLoader resourceLoader = new();
+
+        if (settingsViewModel.IsInitialized is not true)
+            PaymentMethodAdditionDescription.Text = resourceLoader.GetString("PaymentMethodAdditionDescriptionInitial");
+        else
+            PaymentMethodAdditionDescription.Text = resourceLoader.GetString("PaymentMethodAdditionNormalDescription");
     }
 
     public void Receive(PaymentMethodAddedMessage message)

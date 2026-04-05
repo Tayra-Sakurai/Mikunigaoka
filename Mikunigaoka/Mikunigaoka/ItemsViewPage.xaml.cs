@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Sakaishi.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Sakaishi.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -32,5 +33,31 @@ public sealed partial class ItemsViewPage : Page
         InitializeComponent();
 
         viewModel = App.Current.Service.GetRequiredService<ItemsViewModel>();
+
+        SuperAdditionCommand.ExecuteRequested += SuperAdditionCommand_ExecuteRequested;
+        SuperEditCommand.CanExecuteRequested += SuperEditCommand_CanExecuteRequested;
+        SuperEditCommand.ExecuteRequested += SuperEditCommand_ExecuteRequested;
+    }
+
+    private void SuperEditCommand_ExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+    {
+        if (args.Parameter is Item item)
+            Frame.Navigate(typeof(ItemEditAddPage), item);
+    }
+
+    private void SuperEditCommand_CanExecuteRequested(XamlUICommand sender, CanExecuteRequestedEventArgs args)
+    {
+        if (args.Parameter is Item item)
+        {
+            args.CanExecute = true;
+            return;
+        }
+
+        args.CanExecute = false;
+    }
+
+    private void SuperAdditionCommand_ExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+    {
+        Frame.Navigate(typeof(ItemEditAddPage));
     }
 }

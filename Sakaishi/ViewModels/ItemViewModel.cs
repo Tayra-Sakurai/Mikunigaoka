@@ -39,8 +39,19 @@ namespace Sakaishi.ViewModels
         {
             model = item;
 
-            OnPropertyChanged();
+            OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(Description));
+            OnPropertyChanged(nameof(Date));
+            OnPropertyChanged(nameof(Time));
+            OnPropertyChanged(nameof(LargeCategory));
+            OnPropertyChanged(nameof(SmallCategory));
+            OnPropertyChanged(nameof(PaymentMethod));
 
+            await LoadAsync();
+        }
+
+        public async Task LoadAsync()
+        {
             LargeCategories.Clear();
             SmallCategories.Clear();
             PaymentMethods.Clear();

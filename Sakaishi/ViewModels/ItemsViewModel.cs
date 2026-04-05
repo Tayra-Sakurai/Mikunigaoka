@@ -65,7 +65,7 @@ namespace Sakaishi.ViewModels
                 PaymentMethods.Add(method);
         }
 
-        [RelayCommand(AllowConcurrentExecutions = false)]
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanDelete)]
         public async Task DeleteAsync(Item item)
         {
             await databaseService.DeleteAsync(item);
@@ -114,6 +114,11 @@ namespace Sakaishi.ViewModels
         private static bool IsSearchStringValid(string query)
         {
             return !string.IsNullOrWhiteSpace(query);
+        }
+
+        private bool CanDelete(Item item)
+        {
+            return databaseService.Exists(item);
         }
     }
 }

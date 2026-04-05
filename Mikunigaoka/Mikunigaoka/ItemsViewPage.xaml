@@ -12,6 +12,14 @@
     xmlns:models="using:Sakaishi.Models"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <XamlUICommand x:Name="SuperAdditionCommand"
+                       x:Key="SuperAdditionCommand"/>
+
+        <XamlUICommand x:Name="SuperEditCommand"
+                       x:Key="SuperEditCommand"/>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
           RowSpacing="8"
           ColumnSpacing="4">
@@ -19,6 +27,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto" MaxHeight="164"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -28,7 +37,8 @@
         </TextBlock>
 
         <ListView Grid.Row="1"
-                  ItemsSource="{x:Bind viewModel.Items}">
+                  ItemsSource="{x:Bind viewModel.Items}"
+                  x:Name="SuperListView">
             <ListView.Header>
                 <Border Padding="12,0,0,0"
                         Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}">
@@ -70,7 +80,8 @@
         </ListView>
 
         <ListView Grid.Row="2"
-                  ItemsSource="{x:Bind viewModel.Categories}">
+                  ItemsSource="{x:Bind viewModel.Categories}"
+                  SelectedItem="{x:Bind viewModel.FilteringCategory, Mode=TwoWay}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsStackPanel AreStickyGroupHeadersEnabled="True"/>
@@ -96,5 +107,51 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
+        <ComboBox ItemsSource="{x:Bind viewModel.PaymentMethods, Mode=OneWay}"
+                  SelectedItem="{x:Bind viewModel.PaymentMethod, Mode=TwoWay}"
+                  Grid.Row="3">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="models:PaymentMethod">
+                    <TextBlock Text="{x:Bind Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem"
+                       BasedOn="{StaticResource DefaultComboBoxItemStyle}"/>
+            </ComboBox.ItemContainerStyle>
+        </ComboBox>
+
+        <CommandBar Grid.Row="4"
+                    DefaultLabelPosition="Right">
+            <AppBarButton Icon="Add"
+                          x:Uid="ItemAdditionButton"
+                          Command="{StaticResource SuperAdditionCommand}"/>
+            <AppBarButton Icon="Delete"
+                          x:Uid="ItemDeletionButton">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                       x:Uid="ComfirmMessageItem"/>
+                            <Button x:Uid="TruelyDeleteComfirmedItemButton"
+                                    Command="{x:Bind viewModel.DeleteCommand}"
+                                    Style="{StaticResource AccentButtonStyle}"
+                                    CommandParameter="{Binding SelectedItem, ElementName=SuperListView}"/>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Sync"
+                          x:Uid="LoadingDatabaseButton"
+                          Command="{x:Bind viewModel.LoadCommand}"/>
+            <AppBarButton Icon="Filter"
+                          x:Uid="ApplyFilterButton"
+                          Command="{x:Bind viewModel.ApplyFilterCommand}"/>
+            <AppBarButton Icon="Edit"
+                          x:Uid="EditItemButton"
+                          Command="{StaticResource SuperEditCommand}"
+                          CommandParameter="{Binding SelectedItem, ElementName=SuperListView}"/>
+        </CommandBar>
     </Grid>
 </Page>

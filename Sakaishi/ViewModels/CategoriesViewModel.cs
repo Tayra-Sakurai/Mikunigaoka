@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Hineno.Services;
 using Sakaishi.Contexts;
+using Sakaishi.Messages;
 using Sakaishi.Models;
 using Sakaishi.Services;
 using System;
@@ -34,8 +36,29 @@ namespace Sakaishi.ViewModels
         {
             Categories.Clear();
 
-            foreach (var category in await databaseService.GetEntitiesAsync(context => context.LargeCategories))
+            foreach (var category in await databaseService.GetEntitiesAsync(context => context.LargeCategories, category => category.SmallCategories))
                 Categories.Add(category);
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanEdit))]
+        public async Task EditItemAsync(object selectedItem)
+        {
+            if (selectedItem is LargeCategory largeCategory)
+            {
+                WeakReferenceMessenger.Default.Send(new LargeCategoryInvokedMessage(largeCategory));
+                return;
+            }
+
+            if (selectedItem is SmallCategory smallCategory)
+            {
+                WeakReferenceMessenger.Default.Send(new SmallCategoryInvokedMessage(smallCategory));
+                return;
+            }
+        }
+
+        private bool CanEdit(object selectedItem)
+        {
+            return selectedItem is Category;
         }
 
         public async Task SearchAsync(string query)

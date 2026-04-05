@@ -20,6 +20,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <TextBlock x:Name="PaymentMethodAdditionDescription"/>
         <local:PaymentMethodView Grid.Row="1"/>
+        <CommandBar Grid.Row="3" DefaultLabelPosition="Right">
+            <AppBarButton Command="{x:Bind viewModel.AddCommand}"
+                          x:Uid="AdditionPaymentButton"
+                          Icon="Add"/>
+        </CommandBar>
     </Grid>
 </Page>

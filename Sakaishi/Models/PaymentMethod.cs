@@ -10,6 +10,7 @@ namespace Sakaishi.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Item> Items { get; set; } = new HashSet<Item>();
+        public ICollection<Item> Items { get; } = new HashSet<Item>();
+        public double Balance => Items.Sum(item => item.Income - item.Expense);
     }
 }

@@ -162,7 +162,7 @@ namespace Sakaishi.Services
         /// entities. The collection is empty if no related entities are found.</returns>
         /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
         /// <exception cref="InvalidOperationException">The extraction of the collection has failed.</exception>
-        Task<ICollection<object>> GetRelatedEntitiesAsync(object entity, INavigation navigation);
+        Task<ICollection<object>> GetRelatedEntitiesAsync(object entity, INavigationBase navigation);
 
         /// <summary>
         /// Asynchronously gets the related entities from <paramref name="entity"/> with specified by <paramref name="selector"/>.
@@ -177,5 +177,81 @@ namespace Sakaishi.Services
         Task<IEnumerable<TInclude>> GetRelatedEntitiesAsync<TEntity, TInclude>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, IEnumerable<TInclude>>> selector)
             where TEntity : class
             where TInclude : class;
+
+        /// <summary>
+        /// Asynchronously retrieves the related entity for the specified navigation property.
+        /// </summary>
+        /// <param name="entity">The source entity instance from which to retrieve the related entity. Cannot be null.</param>
+        /// <param name="navigation">The navigation property that defines the relationship to the related entity. Cannot be null.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the related entity, or null if
+        /// no related entity exists.</returns>
+        /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
+        /// <exception cref="InvalidOperationException">The inclusion finder failed to get the related entities.</exception>
+        Task<object> GetRelatedEntityAsync(object entity, INavigationBase navigation);
+
+        /// <summary>
+        /// Asynchronously retrieves a related entity from the specified entity using the provided selector expression.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the source entity from which the related entity is retrieved.</typeparam>
+        /// <typeparam name="TRelated">The type of the related entity to retrieve.</typeparam>
+        /// <param name="entity">The source entity instance from which to retrieve the related entity. Cannot be null.</param>
+        /// <param name="selector">An expression that specifies the related entity to retrieve from the source entity. Cannot be null.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the related entity of type
+        /// TRelated, or null if the related entity does not exist.</returns>
+        Task<TRelated> GetRelatedEntityAsync<TEntity, TRelated>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, TRelated>> selector)
+            where TEntity : class
+            where TRelated : class;
+
+        /// <summary>
+        /// Retrieves the collection of entities related to the specified entity through the given navigation property.
+        /// </summary>
+        /// <param name="entity">The source entity instance for which related entities are to be retrieved. Cannot be null.</param>
+        /// <param name="navigation">The navigation property that defines the relationship to the related entities. Cannot be null.</param>
+        /// <returns>An enumerable collection containing the entities related to the specified entity via the provided navigation
+        /// property. The collection is empty if there are no related entities.</returns>
+        /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
+        /// <exception cref="InvalidOperationException">Internal exception.</exception>
+        System.Collections.IEnumerable GetRelatedEntities(object entity, INavigationBase navigation);
+
+        /// <summary>
+        /// Retrieves a collection of related entities for a given entity using the specified navigation property
+        /// selector.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the source entity.</typeparam>
+        /// <typeparam name="TInclude">The type of the related entities to retrieve.</typeparam>
+        /// <param name="entity">The entity instance for which to retrieve related entities. Cannot be null.</param>
+        /// <param name="selector">An expression that specifies the navigation property used to select the related entities. Cannot be null.</param>
+        /// <returns>An enumerable collection of related entities of type TInclude. Returns an empty collection if no related
+        /// entities are found.</returns>
+        /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
+        IEnumerable<TInclude> GetRelatedEntities<TEntity, TInclude>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, IEnumerable<TInclude>>> selector)
+            where TEntity : class
+            where TInclude : class;
+
+        /// <summary>
+        /// Gets the related entity for the specified navigation property from the given entity.
+        /// </summary>
+        /// <param name="entity">The source entity instance from which to retrieve the related entity. Cannot be null.</param>
+        /// <param name="navigation">The navigation property that defines the relationship to the related entity. Cannot be null.</param>
+        /// <returns>The related entity object if it exists; otherwise, null.</returns>
+        /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
+        /// <exception cref="InvalidOperationException">Internal exception.</exception>
+        object GetRelatedEntity(object entity, INavigationBase navigation);
+
+        /// <summary>
+        /// Retrieves a related entity from the specified entity using the provided selector expression.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the source entity from which the related entity is retrieved. Must be a reference type.</typeparam>
+        /// <typeparam name="TRelated">The type of the related entity to retrieve. Must be a reference type.</typeparam>
+        /// <param name="entity">The source entity instance from which to retrieve the related entity. Cannot be null.</param>
+        /// <param name="selector">An expression that specifies the navigation property used to select the related entity from the source
+        /// entity. Cannot be null.</param>
+        /// <returns>The related entity of type TRelated as specified by the selector, or null if the related entity does not
+        /// exist.</returns>
+        /// <exception cref="ArgumentNullException">One or more arguments are null.</exception>
+        /// <exception cref="InvalidOperationException">Internal exception.</exception>
+        TRelated GetRelatedEntity<TEntity, TRelated>(TEntity entity, System.Linq.Expressions.Expression<Func<TEntity, TRelated>> selector)
+            where TEntity : class
+            where TRelated: class;
     }
 }

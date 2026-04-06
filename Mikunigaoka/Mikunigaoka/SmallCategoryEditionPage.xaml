@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="Mikunigaoka.SmallCategoryEditionPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -31,8 +31,10 @@
         <CommandBar Grid.Row="3"
                     DefaultLabelPosition="Right">
             <AppBarButton Icon="Save"
+                          x:Uid="SmallCategorySaveButton"
                           Command="{x:Bind viewModel.SaveCommand}"/>
             <AppBarButton Icon="Delete"
+                          x:Uid="SmallCategoryDeleteButton"
                           Command="{x:Bind viewModel.DeleteCommand}"/>
         </CommandBar>
     </Grid>

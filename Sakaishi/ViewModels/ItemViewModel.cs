@@ -56,10 +56,24 @@ namespace Sakaishi.ViewModels
             SmallCategories.Clear();
             PaymentMethods.Clear();
 
-            foreach (var largeCategory in await databaseService.GetEntitiesAsync(context => context.LargeCategories))
+            foreach (var largeCategory in await databaseService.GetEntitiesAsync(context => context.LargeCategories, c => c.SmallCategories))
                 LargeCategories.Add(largeCategory);
 
-            foreach (var smallCategory in model.Category.LargeCategory.SmallCategories)
+            if (model.Category is null)
+            {
+                model.Category = LargeCategories.First().SmallCategories.First();
+            }
+
+            IEnumerable<SmallCategory> smalls =
+                await databaseService.GetRelatedEntitiesAsync(
+                    await databaseService.GetRelatedEntityAsync(
+                        await databaseService.GetRelatedEntityAsync(
+                            model,
+                            m => m.Category),
+                        smctgr => smctgr.LargeCategory),
+                    lgctgr => lgctgr.SmallCategories);
+
+            foreach (var smallCategory in smalls)
                 SmallCategories.Add(smallCategory);
 
             foreach (var paymentMethod in await databaseService.GetEntitiesAsync(context => context.PaymentMethods))

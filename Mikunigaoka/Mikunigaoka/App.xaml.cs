@@ -70,6 +70,7 @@ namespace Mikunigaoka
             services.AddTransient<ItemViewModel>();
             services.AddTransient<LargeCategoryViewModel>();
             services.AddTransient<PaymentMethodsViewModel>();
+            services.AddTransient<PaymentMethodViewModel>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SmallCategoryViewModel>();
 

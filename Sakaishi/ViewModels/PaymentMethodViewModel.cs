@@ -53,6 +53,7 @@ namespace Sakaishi.ViewModels
             {
                 SetProperty(paymentMethod.Name, value, paymentMethod, (m, v) => m.Name = v, true);
                 UpdateCommand.NotifyCanExecuteChanged();
+                AddCommand.NotifyCanExecuteChanged();
             }
         }
 

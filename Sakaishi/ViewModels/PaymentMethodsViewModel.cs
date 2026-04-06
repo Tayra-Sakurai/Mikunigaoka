@@ -34,5 +34,10 @@ namespace Sakaishi.ViewModels
             foreach (PaymentMethod paymentMethod in await databaseService.GetEntitiesAsync(context => context.PaymentMethods, method => method.Items))
                 PaymentMethods.Add(paymentMethod);
         }
+
+        public static double GetBalance(ICollection<Item> items)
+        {
+            return items.Sum(item => item.Income - item.Expense);
+        }
     }
 }

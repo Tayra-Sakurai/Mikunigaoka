@@ -10,6 +10,7 @@
     xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:models="using:Sakaishi.Models"
+    xmlns:converters="using:Sakaishi.Converters"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -18,6 +19,8 @@
 
         <XamlUICommand x:Name="SuperEditCommand"
                        x:Key="SuperEditCommand"/>
+
+        <converters:CurrencyConverter x:Key="SuperConverter"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
@@ -66,8 +69,8 @@
                         <TextBlock Text="{x:Bind Category.Name}"/>
                         <TextBlock Text="{x:Bind Title}"/>
                         <TextBlock Text="{x:Bind PaymentMethod.Name}"/>
-                        <TextBlock Text="{x:Bind Expense, ConverterParameter=c}"/>
-                        <TextBlock Text="{x:Bind Income, ConverterParameter=c}"/>
+                        <TextBlock Text="{x:Bind Expense, Converter={StaticResource SuperConverter}}"/>
+                        <TextBlock Text="{x:Bind Income, Converter={StaticResource SuperConverter}}"/>
                     </controls:DataRow>
                 </DataTemplate>
             </ListView.ItemTemplate>

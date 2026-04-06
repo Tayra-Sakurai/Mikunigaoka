@@ -60,8 +60,6 @@ namespace Sakaishi.Contexts
             modelBuilder.Entity<LargeCategory>(
                 t =>
                 {
-                    t.HasBaseType(typeof(Category));
-
                     t.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("Name");
@@ -74,8 +72,6 @@ namespace Sakaishi.Contexts
             modelBuilder.Entity<SmallCategory>(
                 t =>
                 {
-                    t.HasBaseType(typeof(Category));
-
                     t.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("Name");
@@ -83,6 +79,9 @@ namespace Sakaishi.Contexts
                     t.Property(e => e.Vector)
                     .IsRequired()
                     .HasColumnName("Vector");
+
+                    t.Navigation(e => e.LargeCategory)
+                    .IsRequired();
                 });
 
             modelBuilder.Entity<PaymentMethod>(

@@ -8,7 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:Sakaishi.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:SmallCategoryViewModel}"
-    DataContext="{x:Bind viewModel}"
     mc:Ignorable="d">
 
     <Grid Padding="12,16"
@@ -32,7 +31,7 @@
                     DefaultLabelPosition="Right">
             <AppBarButton Icon="Add"
                           x:Uid="SCAddition"
-                          Command="{x:Bind viewModel.AddCommand}"/>
+                          Command="{Binding AddCommand}"/>
         </CommandBar>
     </Grid>
 </Page>

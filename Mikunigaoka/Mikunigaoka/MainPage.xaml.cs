@@ -15,7 +15,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Otori.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Sakaishi.Messages;
 using Otori.Messages;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -53,6 +52,10 @@ public sealed partial class MainPage : Page, IRecipient<IsInitializedChangedMess
             // Register to reset
 
             WeakReferenceMessenger.Default.Register(this);
+        }
+        else
+        {
+            ContentFrame.Navigate(typeof(ItemsViewPage));
         }
     }
 

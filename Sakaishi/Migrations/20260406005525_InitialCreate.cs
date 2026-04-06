@@ -12,25 +12,17 @@ namespace Sakaishi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "LargeCategories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Vector = table.Column<string>(type: "TEXT", nullable: false),
-                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 13, nullable: false),
-                    LargeCategoryId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Vector = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Category_Category_LargeCategoryId",
-                        column: x => x.LargeCategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_LargeCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,6 +36,27 @@ namespace Sakaishi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentMethods", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SmallCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    LargeCategoryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Vector = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SmallCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SmallCategories_LargeCategories_LargeCategoryId",
+                        column: x => x.LargeCategoryId,
+                        principalTable: "LargeCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,23 +79,18 @@ namespace Sakaishi.Migrations
                     table.PrimaryKey("PK_Items", x => x.Id);
                     table.CheckConstraint("CK_Balance", "[Expense] > 0 AND [Income] = 0 OR [Expense] = 0 AND [Income] > 0");
                     table.ForeignKey(
-                        name: "FK_Items_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Items_PaymentMethods_PaymentMethodId",
                         column: x => x.PaymentMethodId,
                         principalTable: "PaymentMethods",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Items_SmallCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "SmallCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Category_LargeCategoryId",
-                table: "Category",
-                column: "LargeCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_CategoryId",
@@ -93,6 +101,11 @@ namespace Sakaishi.Migrations
                 name: "IX_Items_PaymentMethodId",
                 table: "Items",
                 column: "PaymentMethodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SmallCategories_LargeCategoryId",
+                table: "SmallCategories",
+                column: "LargeCategoryId");
         }
 
         /// <inheritdoc />
@@ -102,10 +115,13 @@ namespace Sakaishi.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "PaymentMethods");
 
             migrationBuilder.DropTable(
-                name: "PaymentMethods");
+                name: "SmallCategories");
+
+            migrationBuilder.DropTable(
+                name: "LargeCategories");
         }
     }
 }

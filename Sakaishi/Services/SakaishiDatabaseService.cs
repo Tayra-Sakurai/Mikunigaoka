@@ -26,7 +26,39 @@ namespace Sakaishi.Services
         public async Task AddAsync(object entity)
         {
             using SakaishiContext context = await factory.CreateDbContextAsync();
-            await context.AddAsync(entity);
+            EntityEntry entry = context.Add(entity);
+
+            IEnumerable<INavigation> navigations = entry.Metadata.GetNavigations();
+
+            foreach (INavigation navigation in navigations)
+            {
+                object relatedValue = entry.Navigation(navigation).CurrentValue;
+
+                if (relatedValue is not null)
+                {
+                    if (!navigation.IsCollection)
+                    {
+                        EntityEntry relatedEntry = context.Entry(relatedValue);
+
+                        if (relatedEntry.IsKeySet)
+                            relatedEntry.State = EntityState.Unchanged;
+
+                        continue;
+                    }
+
+                    if (relatedValue is IEnumerable<object> collection)
+                        foreach (object item in collection)
+                        {
+                            EntityEntry entityEntry = context.Entry(item);
+
+                            if (entityEntry.IsKeySet)
+                                entityEntry.State = EntityState.Unchanged;
+
+                            continue;
+                        }
+                }
+            }
+
             await context.SaveChangesAsync();
         }
 
@@ -34,7 +66,33 @@ namespace Sakaishi.Services
             where TEntity : class
         {
             using SakaishiContext context = await factory.CreateDbContextAsync();
-            await context.AddAsync(entity);
+            EntityEntry<TEntity> entry = context.Add(entity);
+
+            IEnumerable<INavigation> navigations = entry.Metadata.GetNavigations();
+            foreach (INavigation navigation in navigations)
+            {
+                object relatedValue = entry.Navigation(navigation).CurrentValue;
+                
+                if (relatedValue is not null)
+                {
+                    if (!navigation.IsCollection)
+                    {
+                        EntityEntry relatedEntry = context.Entry(relatedValue);
+
+                        if (relatedEntry.IsKeySet)
+                            relatedEntry.State = EntityState.Unchanged;
+                    }
+                    else if (relatedValue is IEnumerable<object> collection)
+                        foreach (object item in collection)
+                        {
+                            EntityEntry itemEntry = context.Entry(item);
+
+                            if (itemEntry.IsKeySet)
+                                itemEntry.State = EntityState.Unchanged;
+                        }
+                }
+            }
+
             await context.SaveChangesAsync();
         }
 
@@ -178,7 +236,7 @@ namespace Sakaishi.Services
                 .ToListAsync();
         }
 
-        public async Task<ICollection<object>> GetRelatedEntitiesAsync(object entity, INavigation navigation)
+        public async Task<ICollection<object>> GetRelatedEntitiesAsync(object entity, INavigationBase navigation)
         {
             ArgumentNullException.ThrowIfNull(entity);
             ArgumentNullException.ThrowIfNull(navigation);
@@ -187,7 +245,7 @@ namespace Sakaishi.Services
 
             EntityEntry entry = context.Attach(entity);
             return (ICollection<object>)entry.Collection(navigation)
-                .Query();
+                .CurrentValue;
         }
 
         public async Task<IEnumerable<TInclude>> GetRelatedEntitiesAsync<TEntity, TInclude>(TEntity entity, Expression<Func<TEntity, IEnumerable<TInclude>>> selector)
@@ -203,7 +261,92 @@ namespace Sakaishi.Services
 
             return await entry.Collection(selector)
                 .Query()
+                .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public async Task<object> GetRelatedEntityAsync(object entity, INavigationBase navigation)
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            ArgumentNullException.ThrowIfNull(navigation);
+
+            using SakaishiContext context = await factory.CreateDbContextAsync();
+
+            EntityEntry entry = context.Attach(entity);
+
+            return entry.Reference(navigation).CurrentValue;
+        }
+
+        public async Task<TRelated> GetRelatedEntityAsync<TEntity, TRelated>(TEntity entity, Expression<Func<TEntity, TRelated>> selector)
+            where TEntity: class
+            where TRelated : class
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            ArgumentNullException.ThrowIfNull(selector);
+
+            using SakaishiContext context = await factory.CreateDbContextAsync();
+
+            EntityEntry<TEntity> entry = context.Attach(entity);
+
+            return entry.Reference(selector)
+                .CurrentValue;
+        }
+
+        public System.Collections.IEnumerable GetRelatedEntities(object entity, INavigationBase navigation)
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            ArgumentNullException.ThrowIfNull(navigation);
+
+            using SakaishiContext context = factory.CreateDbContext();
+
+            EntityEntry entry = context.Entry(entity);
+
+            return entry.Collection(navigation)
+                .CurrentValue;
+        }
+
+        public IEnumerable<TInclude> GetRelatedEntities<TEntity, TInclude>(TEntity entity, Expression<Func<TEntity, IEnumerable<TInclude>>> selector)
+            where TEntity : class
+            where TInclude : class
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            ArgumentNullException.ThrowIfNull(selector);
+
+            using SakaishiContext context = factory.CreateDbContext();
+
+            EntityEntry<TEntity> entityEntry = context.Entry(entity);
+
+            return [.. entityEntry.Collection(selector)
+                .Query()
+                .AsNoTracking()];
+        }
+
+        public object GetRelatedEntity(object entity, INavigationBase navigation)
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            ArgumentNullException.ThrowIfNull(navigation);
+
+            using SakaishiContext context = factory.CreateDbContext();
+
+            EntityEntry entry = context.Entry(entity);
+
+            return entry.Reference(navigation)
+                .CurrentValue;
+        }
+
+        public TRelated GetRelatedEntity<TEntity, TRelated>(TEntity entity, Expression<Func<TEntity, TRelated>> selector)
+            where TEntity : class
+            where TRelated : class
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+            ArgumentNullException.ThrowIfNull(selector);
+
+            using SakaishiContext context = factory.CreateDbContext();
+
+            EntityEntry<TEntity> entityEntry = context.Entry(entity);
+
+            return entityEntry.Reference(selector)
+                .CurrentValue;
         }
     }
 }

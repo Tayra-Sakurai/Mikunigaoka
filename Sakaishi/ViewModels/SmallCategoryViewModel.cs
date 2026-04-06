@@ -67,7 +67,7 @@ namespace Sakaishi.ViewModels
 
         private bool CanAdd()
         {
-            return !databaseService.Exists(category) && string.IsNullOrWhiteSpace(Name);
+            return !databaseService.Exists(category) && !string.IsNullOrWhiteSpace(Name);
         }
 
         public override async Task DeleteAsync()
@@ -75,6 +75,18 @@ namespace Sakaishi.ViewModels
             await databaseService.DeleteAsync(category);
 
             WeakReferenceMessenger.Default.Send(new SmallCategoryDeletedMessage(category));
+        }
+
+        public new string Name
+        {
+            get => category.Name;
+            set
+            {
+                SetProperty(category.Name, value, category, (m, v) => m.Name = v, true);
+
+                AddCommand.NotifyCanExecuteChanged();
+                SaveCommand.NotifyCanExecuteChanged();
+            }
         }
     }
 }

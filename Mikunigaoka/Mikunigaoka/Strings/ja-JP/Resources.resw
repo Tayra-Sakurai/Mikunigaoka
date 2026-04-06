@@ -162,7 +162,6 @@
   </data>
   <data name="LargeCategoryDesc.Text" xml:space="preserve">
     <value>大分類によって各項目の大まかな区分を定義できます．</value>
-    <comment>大分類の説明文.</comment>
   </data>
   <data name="LargeCategoryName.Header" xml:space="preserve">
     <value>カテゴリ名</value>
@@ -268,17 +267,11 @@
   <data name="ItemNameColumn.Content" xml:space="preserve">
     <value>項目名</value>
   </data>
-  <data name="LargecategoryAdditionNormalDescription" xml:space="preserve">
-    <value>大分類を追加します．</value>
-  </data>
   <data name="LargecategoryColumn.Content" xml:space="preserve">
     <value>大分類</value>
   </data>
   <data name="LargeCategoryDeleteButton.Label" xml:space="preserve">
     <value>削除</value>
-  </data>
-  <data name="LargeCategorydesc.Text" xml:space="preserve">
-    <value>大分類によって各項目の大まかな区分を定義できます．</value>
   </data>
   <data name="LargeCategoryDescriptionEdition.Text" xml:space="preserve">
     <value>大分類を編集します．</value>
@@ -306,5 +299,20 @@
   </data>
   <data name="TruelyDeleteComfirmedItemButton.Content" xml:space="preserve">
     <value>削除する</value>
+  </data>
+  <data name="SmallCategoryDeleteButton.Label" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="SmallCategorySaveButton.Label" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="PaymentMethodEditDesc.Text" xml:space="preserve">
+    <value>支払い手段の登録情報を確認・変更・削除します．</value>
+  </data>
+  <data name="SavePaymentMethodButton.Label" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="DeletePaymentMethodButton.Label" xml:space="preserve">
+    <value>削除</value>
   </data>
 </root>

@@ -14,7 +14,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Sakaishi.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Sakaishi.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -24,26 +23,20 @@ namespace Mikunigaoka;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class ItemEditAddPage : Page
+public sealed partial class PaymentMethodsViewPage : Page
 {
-    private ItemViewModel viewModel;
+    private readonly PaymentMethodsViewModel viewModel;
 
-    public ItemEditAddPage()
+    public PaymentMethodsViewPage()
     {
         InitializeComponent();
 
-        viewModel = App.Current.Service.GetRequiredService<ItemViewModel>();
+        viewModel = App.Current.Service.GetRequiredService<PaymentMethodsViewModel>();
     }
 
-    protected override async void OnNavigatedTo(NavigationEventArgs e)
+    protected async override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
-
-        if (e.Parameter is Item item)
-        {
-            await viewModel.InitializeForExistingValue(item);
-            return;
-        }
 
         await viewModel.LoadAsync();
     }

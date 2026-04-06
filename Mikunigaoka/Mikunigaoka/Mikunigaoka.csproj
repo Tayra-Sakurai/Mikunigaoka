@@ -18,6 +18,8 @@
     <None Remove="LargeCategoryEditionPage.xaml" />
     <None Remove="MainPage.xaml" />
     <None Remove="PaymentMethodAdditionPage.xaml" />
+    <None Remove="PaymentMethodEditionPage.xaml" />
+    <None Remove="PaymentMethodsViewPage.xaml" />
     <None Remove="PaymentMethodView.xaml" />
   </ItemGroup>
 
@@ -47,6 +49,18 @@
     <ProjectReference Include="..\..\Hineno\Hineno.csproj" />
     <ProjectReference Include="..\..\Otori\Otori.csproj" />
     <ProjectReference Include="..\..\Sakaishi\Sakaishi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="PaymentMethodsViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="PaymentMethodEditionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

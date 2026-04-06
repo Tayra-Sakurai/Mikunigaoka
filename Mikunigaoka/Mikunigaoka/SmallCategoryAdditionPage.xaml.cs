@@ -44,14 +44,24 @@ namespace Mikunigaoka
 
             viewModel = App.Current.Service.GetRequiredService<SmallCategoryViewModel>();
 
+            DataContext = viewModel;
+
             WeakReferenceMessenger.Default.Register(this);
 
             await viewModel.LoadAsync();
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            base.OnNavigatingFrom(e);
+        }
+
         public void Receive(SmallCategoryAddedMessage message)
         {
-            // Add the processes.
+            if (settingsViewModel.IsInitialized is not true)
+                Frame.Navigate(typeof(PaymentMethodAdditionPage));
         }
     }
 }

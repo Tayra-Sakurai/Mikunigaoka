@@ -28,7 +28,7 @@
                    Grid.ColumnSpan="2"/>
 
         <ComboBox ItemsSource="{Binding LargeCategories}"
-                  SelectedItem="{Binding LargeCategory}"
+                  SelectedItem="{Binding LargeCategory, Mode=TwoWay}"
                   Grid.Row="1"
                   x:Uid="LargeCategoryComboBox">
             <ComboBox.ItemTemplate>
